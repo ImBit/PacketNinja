@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "bb-packet-interceptor",
+	"version": "${version}",
+	"name": "BB Packet Interceptor",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"BitSquidd"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/bb-packet-interceptor/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"xyz.bitsquidd.BBPacketInterceptor"
+		],
+		"client": [
+			"xyz.bitsquidd.PacketInterceptorMod"
+		]
+	},
+	"mixins": [
+		"bb-packet-interceptor.mixins.json",
+		{
+			"config": "bb-packet-interceptor.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
