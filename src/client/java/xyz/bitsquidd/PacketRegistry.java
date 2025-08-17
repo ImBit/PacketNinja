@@ -3,6 +3,7 @@ package xyz.bitsquidd;
 import net.minecraft.network.protocol.Packet;
 import xyz.bitsquidd.packets.PacketHandler;
 import xyz.bitsquidd.packets.impl.AddEntityPacketHandler;
+import xyz.bitsquidd.packets.impl.InteractPacketHandler;
 import xyz.bitsquidd.packets.impl.RemoveEntityPacketHandler;
 import xyz.bitsquidd.packets.impl.RideEntityPacketHandler;
 
@@ -17,9 +18,13 @@ public class PacketRegistry {
     }
 
     private static void registerHandlers() {
+        // Clientbound
         registerHandler(new RideEntityPacketHandler());
         registerHandler(new AddEntityPacketHandler());
         registerHandler(new RemoveEntityPacketHandler());
+
+        // Serverbound
+        registerHandler(new InteractPacketHandler());
     }
 
     private static void registerHandler(PacketHandler<?> handler) {
