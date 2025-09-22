@@ -19,6 +19,7 @@ public class PacketRegistry {
         registerHandler(new RideEntityPacketHandler());
         registerHandler(new AddEntityPacketHandler());
         registerHandler(new RemoveEntityPacketHandler());
+        registerHandler(new SetEntityDataHandler());
 
         // Serverbound
         registerHandler(new InteractPacketHandler());
@@ -65,7 +66,7 @@ public class PacketRegistry {
 
     public static PacketHandler<?> findHandler(String input) {
         PacketHandler<?> handler = nameToHandler.get(input.toLowerCase());
-        if (handler != null) {
+        if (handler!=null) {
             return handler;
         }
 
