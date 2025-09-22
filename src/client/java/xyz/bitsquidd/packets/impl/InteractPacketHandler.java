@@ -26,6 +26,5 @@ public class InteractPacketHandler extends PacketHandler<ServerboundInteractPack
         }
 
         return component;
-
     }
 }

@@ -2,10 +2,7 @@ package xyz.bitsquidd;
 
 import net.minecraft.network.protocol.Packet;
 import xyz.bitsquidd.packets.PacketHandler;
-import xyz.bitsquidd.packets.impl.AddEntityPacketHandler;
-import xyz.bitsquidd.packets.impl.InteractPacketHandler;
-import xyz.bitsquidd.packets.impl.RemoveEntityPacketHandler;
-import xyz.bitsquidd.packets.impl.RideEntityPacketHandler;
+import xyz.bitsquidd.packets.impl.*;
 
 import java.util.*;
 
@@ -25,6 +22,8 @@ public class PacketRegistry {
 
         // Serverbound
         registerHandler(new InteractPacketHandler());
+        registerHandler(new BlockPacketHandler());
+        registerHandler(new SwingPacket());
     }
 
     private static void registerHandler(PacketHandler<?> handler) {
