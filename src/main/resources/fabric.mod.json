@@ -11,14 +11,14 @@
 
 	},
 	"license": "LGPL-3.0",
-	"icon": "assets/packet-ninja/icon.png",
+	"icon": "assets/ninja/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-          "xyz.bitsquidd.PacketInterceptor"
+          "xyz.bitsquidd.ninja.PacketInterceptor"
 		],
 		"client": [
-			"xyz.bitsquidd.PacketInterceptorMod"
+          "xyz.bitsquidd.ninja.PacketInterceptorMod"
 		]
 	},
 	"mixins": [
