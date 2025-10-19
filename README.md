@@ -1,4 +1,4 @@
-# 🥷 Packet Ninja
+![Project Logo](assets/images/logo_text.png)
 
 <p>A simple mod used to log incoming and outgoing packets for Java Minecraft.
 <p>The aim is to make working with packets, specifically during development, a little easier to debug! :)
