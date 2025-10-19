@@ -1,4 +1,4 @@
-package xyz.bitsquidd.mixin;
+package xyz.bitsquidd.ninja.mixin;
 
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.bitsquidd.PacketInterceptorMod;
+import xyz.bitsquidd.ninja.PacketInterceptorMod;
 
 @Mixin(Connection.class)
 public class MixinConnection {

@@ -1,8 +1,7 @@
-package xyz.bitsquidd;
+package xyz.bitsquidd.ninja;
 
 import net.minecraft.network.protocol.Packet;
-import xyz.bitsquidd.PacketRegistry;
-import xyz.bitsquidd.packets.PacketHandler;
+import xyz.bitsquidd.ninja.packets.PacketHandler;
 
 import java.util.Map;
 import java.util.Set;

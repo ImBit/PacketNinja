@@ -1,4 +1,4 @@
-package xyz.bitsquidd.packets;
+package xyz.bitsquidd.ninja.packets;
 
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;

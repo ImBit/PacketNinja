@@ -1,10 +1,10 @@
-package xyz.bitsquidd.packets.impl;
+package xyz.bitsquidd.ninja.packets.impl;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import xyz.bitsquidd.packets.PacketHandler;
+import xyz.bitsquidd.ninja.packets.PacketHandler;
 
 public class AddCustomPayloadPacketHandler extends PacketHandler<ClientboundCustomPayloadPacket> {
 

@@ -1,9 +1,9 @@
-package xyz.bitsquidd.packets.impl;
+package xyz.bitsquidd.ninja.packets.impl;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
-import xyz.bitsquidd.packets.PacketHandler;
+import xyz.bitsquidd.ninja.packets.PacketHandler;
 
 public class RideEntityPacketHandler extends PacketHandler<ClientboundSetPassengersPacket> {
 

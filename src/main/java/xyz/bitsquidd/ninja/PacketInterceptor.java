@@ -1,4 +1,4 @@
-package xyz.bitsquidd;
+package xyz.bitsquidd.ninja;
 
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

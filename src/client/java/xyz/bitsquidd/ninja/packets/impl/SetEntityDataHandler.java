@@ -1,10 +1,10 @@
-package xyz.bitsquidd.packets.impl;
+package xyz.bitsquidd.ninja.packets.impl;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
-import xyz.bitsquidd.packets.PacketHandler;
+import xyz.bitsquidd.ninja.packets.PacketHandler;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package xyz.bitsquidd.command;
+package xyz.bitsquidd.ninja.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -8,10 +8,10 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import xyz.bitsquidd.PacketFilter;
-import xyz.bitsquidd.PacketInterceptorMod;
-import xyz.bitsquidd.PacketRegistry;
-import xyz.bitsquidd.packets.PacketHandler;
+import xyz.bitsquidd.ninja.PacketFilter;
+import xyz.bitsquidd.ninja.PacketInterceptorMod;
+import xyz.bitsquidd.ninja.PacketRegistry;
+import xyz.bitsquidd.ninja.packets.PacketHandler;
 
 public class PacketInterceptionCommand {
 
