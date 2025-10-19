@@ -3,27 +3,26 @@ package xyz.bitsquidd.ninja;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.network.protocol.Packet;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.bitsquidd.ninja.command.PacketInterceptionCommand;
 
-public class PacketInterceptorMod implements ClientModInitializer {
+public final class PacketInterceptorMod implements ClientModInitializer {
     public static final String MOD_ID = "packet-interceptor";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     private static PacketInterceptorMod instance;
-    private final PacketFilter packetFilter;
-    private final PacketLogger packetLogger;
+    private final PacketFilter packetFilter = new PacketFilter();
+    private final PacketLogger packetLogger = new PacketLogger();
 
     public static boolean logPackets = false;
 
     public PacketInterceptorMod() {
         instance = this;
-        this.packetFilter = new PacketFilter();
-        this.packetLogger = new PacketLogger();
     }
 
-    public static PacketInterceptorMod getInstance() {
+    public static @NotNull PacketInterceptorMod getInstance() {
         return instance;
     }
 
@@ -34,11 +33,11 @@ public class PacketInterceptorMod implements ClientModInitializer {
         });
     }
 
-    public PacketFilter getPacketFilter() {
+    public @NotNull PacketFilter getPacketFilter() {
         return packetFilter;
     }
 
-    public PacketLogger getPacketLogger() {
+    public @NotNull PacketLogger getPacketLogger() {
         return packetLogger;
     }
 

@@ -28,8 +28,6 @@ public class PacketLogger {
 
     private void sendChatMessage(MutableComponent component) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.player != null) {
-            minecraft.player.displayClientMessage(component, false);
-        }
+        if (minecraft.player != null) minecraft.player.displayClientMessage(component, false);
     }
 }
