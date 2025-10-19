@@ -37,7 +37,7 @@ public final class PacketInfoBundle {
 
         List<Component> segmentComponents = segments.stream().map(segment -> Component.empty()
                 .color(type.secondaryColor)
-                .append(Component.text("    -"))
+                .append(Component.text("    ↪ "))
                 .append(segment.getName())
                 .append(Component.text(": "))
                 .append(segment.getValue())
