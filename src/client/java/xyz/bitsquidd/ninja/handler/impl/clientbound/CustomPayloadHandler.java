@@ -5,6 +5,7 @@ import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
@@ -16,10 +17,10 @@ public class CustomPayloadHandler extends PacketHandler<@NotNull ClientboundCust
 
     public CustomPayloadHandler() {
         super(
-                ClientboundCustomPayloadPacket.class,
-                "CustomPayload",
-                "Handles custom payload packets",
-                PacketType.CLIENTBOUND
+              ClientboundCustomPayloadPacket.class,
+              "CustomPayload",
+              "Handles custom payload packets",
+              PacketType.CLIENTBOUND
         );
     }
 
@@ -31,14 +32,14 @@ public class CustomPayloadHandler extends PacketHandler<@NotNull ClientboundCust
         ResourceLocation typeId = type.id();
 
         return PacketInfoBundle.of(
-                packetType,
-                Component.text(friendlyName),
-                List.of(
-                        PacketInfoSegment.of(Component.text("Type"), Component.text(typeId.getNamespace() + ":" + typeId.getPath())),
-                        PacketInfoSegment.of(Component.text("Path"), Component.text(typeId.getPath())),
-                        PacketInfoSegment.of(Component.text("PayloadClass"), Component.text(payload.getClass().getSimpleName())),
-                        PacketInfoSegment.of(Component.text("PayloadString"), Component.text(payload.toString()))
-                )
+              packetType,
+              Component.text(friendlyName),
+              List.of(
+                    PacketInfoSegment.of(Component.text("Type"), Component.text(typeId.getNamespace() + ":" + typeId.getPath())),
+                    PacketInfoSegment.of(Component.text("Path"), Component.text(typeId.getPath())),
+                    PacketInfoSegment.of(Component.text("PayloadClass"), Component.text(payload.getClass().getSimpleName())),
+                    PacketInfoSegment.of(Component.text("PayloadString"), Component.text(payload.toString()))
+              )
         );
     }
 

@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+
 import xyz.bitsquidd.ninja.PacketFilter;
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
 import xyz.bitsquidd.ninja.PacketRegistry;
@@ -26,9 +27,12 @@ public class PacketInterceptionCommand {
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         dispatcher.register(ClientCommandManager.literal("packetInterception")
-                                                .then(ClientCommandManager.literal("start").executes(PacketInterceptionCommand::startLogging))
-                                                .then(ClientCommandManager.literal("stop").executes(PacketInterceptionCommand::stopLogging))
-                                                .then(ClientCommandManager.literal("filter").then(ClientCommandManager.literal("list").executes(PacketInterceptionCommand::listPackets)).then(ClientCommandManager.argument("packetName", StringArgumentType.word()).suggests(PACKET_SUGGESTIONS).executes(PacketInterceptionCommand::togglePacket))));
+              .then(ClientCommandManager.literal("start").executes(PacketInterceptionCommand::startLogging))
+              .then(ClientCommandManager.literal("stop").executes(PacketInterceptionCommand::stopLogging))
+              .then(ClientCommandManager.literal("filter").then(ClientCommandManager.literal("list").executes(PacketInterceptionCommand::listPackets)).then(ClientCommandManager.argument(
+                    "packetName",
+                    StringArgumentType.word()
+              ).suggests(PACKET_SUGGESTIONS).executes(PacketInterceptionCommand::togglePacket))));
     }
 
     private static int startLogging(CommandContext<FabricClientCommandSource> context) {
@@ -79,7 +83,8 @@ public class PacketInterceptionCommand {
 
         if (handler == null) {
             source.sendError(Component.literal("Unknown packet: " + packetName).withStyle(ChatFormatting.RED));
-            source.sendFeedback(Component.literal("Available packets: " + String.join(", ", PacketRegistry.getAllHandlers().stream().map(PacketHandler::getFriendlyName).toList())).withStyle(ChatFormatting.YELLOW));
+            source.sendFeedback(Component.literal("Available packets: " + String.join(", ", PacketRegistry.getAllHandlers().stream().map(PacketHandler::getFriendlyName).toList()))
+                  .withStyle(ChatFormatting.YELLOW));
             return 0;
         }
 

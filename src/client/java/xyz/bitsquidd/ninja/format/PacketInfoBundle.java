@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.jspecify.annotations.NullMarked;
+
 import xyz.bitsquidd.ninja.handler.PacketType;
 
 import java.util.ArrayList;
@@ -29,18 +30,18 @@ public final class PacketInfoBundle {
 
     public Component format() {
         Component titleComponent = Component.empty()
-                .append(Component.text(type.icon+" "))
-                .append(name
-                        .color(type.primaryColor)
-                        .decorate(TextDecoration.BOLD)
-                );
+              .append(Component.text(type.icon + " "))
+              .append(name
+                    .color(type.primaryColor)
+                    .decorate(TextDecoration.BOLD)
+              );
 
         List<Component> segmentComponents = segments.stream().map(segment -> Component.empty()
-                .color(type.secondaryColor)
-                .append(Component.text("    ↪ "))
-                .append(segment.getName())
-                .append(Component.text(": "))
-                .append(segment.getValue())
+              .color(type.secondaryColor)
+              .append(Component.text("    ↪ "))
+              .append(segment.getName())
+              .append(Component.text(": "))
+              .append(segment.getValue())
         ).collect(Collectors.toList());
 
         List<Component> allComponents = new ArrayList<>(List.of(titleComponent));

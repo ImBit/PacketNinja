@@ -7,6 +7,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.network.protocol.Packet;
 import org.jspecify.annotations.NullMarked;
+
 import xyz.bitsquidd.ninja.PacketRegistry;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
@@ -26,9 +27,9 @@ public final class PacketLogger {
         Instant currentTime = Instant.now();
         if (Duration.between(lastPacketTime, currentTime).compareTo(Duration.ofMillis(500)) < 0) {
             sendChatMessage(
-                    Component.text("...", NamedTextColor.GRAY)
-                            .hoverEvent(HoverEvent.showText(Component.text("Too many packets sent within 500ms, hiding."))
-            ));
+                  Component.text("...", NamedTextColor.GRAY)
+                        .hoverEvent(HoverEvent.showText(Component.text("Too many packets sent within 500ms, hiding."))
+                        ));
         }
         lastPacketTime = currentTime;
 

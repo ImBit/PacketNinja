@@ -2,6 +2,7 @@ package xyz.bitsquidd.ninja;
 
 import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.NotNull;
+
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
 import java.util.Map;

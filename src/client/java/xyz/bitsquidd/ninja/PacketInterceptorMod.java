@@ -6,6 +6,7 @@ import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import xyz.bitsquidd.ninja.command.PacketInterceptionCommand;
 import xyz.bitsquidd.ninja.format.PacketLogger;
 
@@ -44,7 +45,7 @@ public final class PacketInterceptorMod implements ClientModInitializer {
 
     public static void logPacket(Packet<?> packet) {
         if (logPackets && getInstance().getPacketFilter().shouldInterceptPacket(packet)) {
-            getInstance().getPacketLogger().addPacket( packet);
+            getInstance().getPacketLogger().addPacket(packet);
         }
     }
 }

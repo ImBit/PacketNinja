@@ -3,16 +3,20 @@ package xyz.bitsquidd.ninja;
 import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import xyz.bitsquidd.ninja.handler.PacketHandler;
-import xyz.bitsquidd.ninja.handler.impl.clientbound.CustomPayloadHandler;
 import xyz.bitsquidd.ninja.handler.impl.clientbound.AddEntityHandler;
+import xyz.bitsquidd.ninja.handler.impl.clientbound.CustomPayloadHandler;
 import xyz.bitsquidd.ninja.handler.impl.clientbound.RemoveEntitiesHandler;
 import xyz.bitsquidd.ninja.handler.impl.clientbound.SetPassengersHandler;
 import xyz.bitsquidd.ninja.handler.impl.serverbound.InteractHandler;
 import xyz.bitsquidd.ninja.handler.impl.serverbound.PlayerActionHandler;
 import xyz.bitsquidd.ninja.handler.impl.serverbound.SwingHandler;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class PacketRegistry {
     private static final @NotNull Map<Class<? extends Packet<?>>, PacketHandler<?>> handlers = new HashMap<>();
@@ -64,7 +68,7 @@ public class PacketRegistry {
 
     public static @Nullable PacketHandler<?> findHandler(@NotNull String input) {
         PacketHandler<?> handler = nameToHandler.get(input.toLowerCase());
-        if (handler!=null) return handler;
+        if (handler != null) return handler;
 
         for (PacketHandler<?> h : handlers.values()) {
             if (h.getFriendlyName().toLowerCase().contains(input.toLowerCase())) {
