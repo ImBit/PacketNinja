@@ -16,7 +16,7 @@ import xyz.bitsquidd.ninja.handler.PacketHandler;
 public class PacketInterceptionCommand {
 
     private static final SuggestionProvider<FabricClientCommandSource> PACKET_SUGGESTIONS = (context, builder) -> {
-        for (String friendlyName : PacketRegistry.getAllFriendlyNames()) {
+        for (String friendlyName : PacketRegistry.getAllHandlers().stream().map(PacketHandler::getFriendlyName).toList()) {
             if (friendlyName.toLowerCase().startsWith(builder.getRemaining().toLowerCase())) {
                 builder.suggest(friendlyName);
             }
@@ -79,7 +79,7 @@ public class PacketInterceptionCommand {
 
         if (handler == null) {
             source.sendError(Component.literal("Unknown packet: " + packetName).withStyle(ChatFormatting.RED));
-            source.sendFeedback(Component.literal("Available packets: " + String.join(", ", PacketRegistry.getAllFriendlyNames())).withStyle(ChatFormatting.YELLOW));
+            source.sendFeedback(Component.literal("Available packets: " + String.join(", ", PacketRegistry.getAllHandlers().stream().map(PacketHandler::getFriendlyName).toList())).withStyle(ChatFormatting.YELLOW));
             return 0;
         }
 
