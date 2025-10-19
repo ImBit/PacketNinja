@@ -1,11 +1,14 @@
 package xyz.bitsquidd.ninja.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
@@ -13,9 +16,10 @@ import xyz.bitsquidd.ninja.PacketFilter;
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
 import xyz.bitsquidd.ninja.PacketRegistry;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
+import xyz.bitsquidd.ninja.handler.PacketType;
 
+// TODO make this nicer!
 public class PacketInterceptionCommand {
-
     private static final SuggestionProvider<FabricClientCommandSource> PACKET_SUGGESTIONS = (context, builder) -> {
         for (String friendlyName : PacketRegistry.getAllHandlers().stream().map(PacketHandler::getFriendlyName).toList()) {
             if (friendlyName.toLowerCase().startsWith(builder.getRemaining().toLowerCase())) {
@@ -29,22 +33,41 @@ public class PacketInterceptionCommand {
         dispatcher.register(ClientCommandManager.literal("packetInterception")
               .then(ClientCommandManager.literal("start").executes(PacketInterceptionCommand::startLogging))
               .then(ClientCommandManager.literal("stop").executes(PacketInterceptionCommand::stopLogging))
-              .then(ClientCommandManager.literal("filter").then(ClientCommandManager.literal("list").executes(PacketInterceptionCommand::listPackets)).then(ClientCommandManager.argument(
+              .then(ClientCommandManager.literal("filter").then(ClientCommandManager.literal("list")
+                    .executes(PacketInterceptionCommand::listPackets)).then(ClientCommandManager.argument(
                     "packetName",
                     StringArgumentType.word()
               ).suggests(PACKET_SUGGESTIONS).executes(PacketInterceptionCommand::togglePacket))));
     }
 
+    private static void sendMessage(String message, boolean success) {
+        String icon = success ? "✔" : "❌";
+        PacketType type = success ? PacketType.CLIENTBOUND : PacketType.SERVERBOUND;
+
+        MinecraftClientAudiences.of().audience().sendMessage(
+              net.kyori.adventure.text.Component.empty()
+                    .append(net.kyori.adventure.text.Component.text(icon)
+                          .color(type.secondaryColor)
+                          .decorate(TextDecoration.BOLD)
+                    )
+                    .append(net.kyori.adventure.text.Component.text(message)
+                          .color(type.primaryColor)
+                    )
+        );
+    }
+
     private static int startLogging(CommandContext<FabricClientCommandSource> context) {
         PacketInterceptorMod.logPackets = true;
-        context.getSource().sendFeedback(Component.literal("✓ Started packet interception logging").withStyle(ChatFormatting.GREEN));
-        return 1;
+
+        sendMessage("Started packet logging...", true);
+        return Command.SINGLE_SUCCESS;
     }
 
     private static int stopLogging(CommandContext<FabricClientCommandSource> context) {
         PacketInterceptorMod.logPackets = false;
-        context.getSource().sendFeedback(Component.literal("✗ Stopped packet interception logging").withStyle(ChatFormatting.RED));
-        return 1;
+
+        sendMessage("Stopped packet logging...", false);
+        return Command.SINGLE_SUCCESS;
     }
 
     private static int listPackets(CommandContext<FabricClientCommandSource> context) {
@@ -52,15 +75,13 @@ public class PacketInterceptionCommand {
         FabricClientCommandSource source = context.getSource();
 
         source.sendFeedback(Component.literal("=== Packet Interception Status ===").withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD));
-
         source.sendFeedback(Component.literal("Logging: " + (PacketInterceptorMod.logPackets ? "ON" : "OFF")).withStyle(PacketInterceptorMod.logPackets ? ChatFormatting.GREEN : ChatFormatting.RED));
-
         source.sendFeedback(Component.literal("Available Packets:").withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD));
 
         for (PacketHandler<?> handler : PacketRegistry.getAllHandlers()) {
             boolean isEnabled = filter.isPacketEnabled(handler.getPacketClass());
             ChatFormatting color = isEnabled ? ChatFormatting.GREEN : ChatFormatting.RED;
-            String symbol = isEnabled ? "✓" : "✗";
+            String symbol = isEnabled ? "✔" : "❌";
 
             source.sendFeedback(Component.literal("  " + symbol + " " + handler.getFriendlyName() + " - " + handler.getDescription()).withStyle(color));
         }
@@ -93,9 +114,9 @@ public class PacketInterceptionCommand {
         boolean isEnabled = filter.isPacketEnabled(handler.getPacketClass());
 
         if (isEnabled) {
-            source.sendFeedback(Component.literal("✓ Enabled interception for: " + handler.getFriendlyName() + " (" + handler.getPacketClass().getSimpleName() + ")").withStyle(ChatFormatting.GREEN));
+            sendMessage("Enabled interception for: " + handler.getFriendlyName(), true);
         } else {
-            source.sendFeedback(Component.literal("✗ Disabled interception for: " + handler.getFriendlyName() + " (" + handler.getPacketClass().getSimpleName() + ")").withStyle(ChatFormatting.RED));
+            sendMessage("Disabled interception for: " + handler.getFriendlyName(), false);
         }
 
         return 1;
