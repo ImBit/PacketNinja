@@ -3,6 +3,9 @@ package xyz.bitsquidd.ninja.format;
 import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NullMarked;
 
+/**
+ * A segment of information about a packet, e.g. EntityID: 42
+ */
 @NullMarked
 public final class PacketInfoSegment {
     private final Component name;

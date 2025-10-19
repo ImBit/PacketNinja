@@ -14,6 +14,9 @@ import xyz.bitsquidd.ninja.handler.PacketHandler;
 import java.time.Duration;
 import java.time.Instant;
 
+/**
+ * Core logger for packets.
+ */
 @NullMarked
 public final class PacketLogger {
 

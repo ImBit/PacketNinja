@@ -11,7 +11,7 @@ import xyz.bitsquidd.ninja.handler.PacketType;
 
 import java.util.List;
 
-public class InteractHandler extends PacketHandler<ServerboundInteractPacket> {
+public class InteractHandler extends PacketHandler<@NotNull ServerboundInteractPacket> {
 
     public InteractHandler() {
         super(

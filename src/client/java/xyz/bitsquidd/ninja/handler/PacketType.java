@@ -3,6 +3,9 @@ package xyz.bitsquidd.ninja.handler;
 import net.kyori.adventure.text.format.TextColor;
 import org.jspecify.annotations.NullMarked;
 
+/**
+ * All possible packet types for the client to interact with.
+ */
 @NullMarked
 public enum PacketType {
     CLIENTBOUND("↓", TextColor.color(0x00ff88), TextColor.color(0xafffd9)),

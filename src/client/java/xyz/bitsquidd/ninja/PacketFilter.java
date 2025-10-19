@@ -1,7 +1,7 @@
 package xyz.bitsquidd.ninja;
 
 import net.minecraft.network.protocol.Packet;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@NullMarked
 public final class PacketFilter {
     private final Map<Class<? extends Packet<?>>, Boolean> packetFilters = new ConcurrentHashMap<>();
 
@@ -18,15 +19,15 @@ public final class PacketFilter {
         }
     }
 
-    public boolean shouldInterceptPacket(@NotNull Class<?> packetClass) {
+    public boolean shouldInterceptPacket(Class<?> packetClass) {
         return packetFilters.getOrDefault(packetClass, false) && PacketRegistry.canHandle(packetClass);
     }
 
-    public boolean shouldInterceptPacket(@NotNull Packet<?> packet) {
+    public boolean shouldInterceptPacket(Packet<?> packet) {
         return shouldInterceptPacket(packet.getClass());
     }
 
-    public void togglePacketFilter(@NotNull String packetName) {
+    public void togglePacketFilter(String packetName) {
         PacketHandler<?> handler = PacketRegistry.findHandler(packetName);
         if (handler != null) {
             Class<? extends Packet<?>> packetClass = handler.getPacketClass();
@@ -35,7 +36,7 @@ public final class PacketFilter {
         }
     }
 
-    public boolean isPacketEnabled(@NotNull Class<? extends Packet<?>> packetClass) {
+    public boolean isPacketEnabled(Class<? extends Packet<?>> packetClass) {
         return packetFilters.getOrDefault(packetClass, false);
     }
 

@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A bundle of information about a packet sent to a client. This structure is used for pretty formatting.
+ */
 @NullMarked
 public final class PacketInfoBundle {
     private final PacketType type;
