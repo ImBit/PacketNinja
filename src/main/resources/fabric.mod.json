@@ -1,31 +1,30 @@
 {
 	"schemaVersion": 1,
-	"id": "bb-packet-interceptor",
+	"id": "packet-ninja",
 	"version": "${version}",
-	"name": "BB Packet Interceptor",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Packet Ninja",
+	"description": "Mod to log incoming and outgoing packets to the client.",
 	"authors": [
 		"BitSquidd"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/bb-packet-interceptor/icon.png",
+	"license": "LGPL-3.0",
+	"icon": "assets/packet-ninja/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"xyz.bitsquidd.BBPacketInterceptor"
+          "xyz.bitsquidd.PacketInterceptor"
 		],
 		"client": [
 			"xyz.bitsquidd.PacketInterceptorMod"
 		]
 	},
 	"mixins": [
-		"bb-packet-interceptor.mixins.json",
+      "packet-ninja.mixins.json",
 		{
-			"config": "bb-packet-interceptor.client.mixins.json",
+			"config": "packet-ninja.client.mixins.json",
 			"environment": "client"
 		}
 	],
@@ -36,6 +35,6 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+
 	}
 }
