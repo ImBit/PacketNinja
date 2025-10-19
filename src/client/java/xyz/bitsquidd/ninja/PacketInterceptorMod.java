@@ -42,9 +42,9 @@ public final class PacketInterceptorMod implements ClientModInitializer {
         return packetLogger;
     }
 
-    public static void logPacket(boolean outgoing, Packet<?> packet) {
+    public static void logPacket(Packet<?> packet) {
         if (logPackets && getInstance().getPacketFilter().shouldInterceptPacket(packet)) {
-            getInstance().getPacketLogger().addPacket(outgoing, packet);
+            getInstance().getPacketLogger().addPacket( packet);
         }
     }
 }

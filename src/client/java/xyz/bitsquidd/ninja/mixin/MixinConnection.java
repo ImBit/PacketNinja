@@ -19,9 +19,9 @@ public class MixinConnection {
     public void doSendPacket(Packet<?> packet, ChannelFutureListener channelFutureListener, boolean bl, CallbackInfo ci) {
         if (PacketInterceptorMod.logPackets && Minecraft.getInstance().player != null) {
             if (packet instanceof BundlePacket<?> bundlePacket) {
-                bundlePacket.subPackets().forEach(subPacket -> PacketInterceptorMod.logPacket(true, subPacket));
+                bundlePacket.subPackets().forEach(PacketInterceptorMod::logPacket);
             } else {
-                PacketInterceptorMod.logPacket(true, packet);
+                PacketInterceptorMod.logPacket(packet);
             }
         }
     }
@@ -30,9 +30,9 @@ public class MixinConnection {
     public void readPacket(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
         if (PacketInterceptorMod.logPackets && Minecraft.getInstance().player != null) {
             if (packet instanceof BundlePacket<?> bundlePacket) {
-                bundlePacket.subPackets().forEach(subPacket -> PacketInterceptorMod.logPacket(false, subPacket));
+                bundlePacket.subPackets().forEach(PacketInterceptorMod::logPacket);
             } else {
-                PacketInterceptorMod.logPacket(false, packet);
+                PacketInterceptorMod.logPacket(packet);
             }
         }
     }
