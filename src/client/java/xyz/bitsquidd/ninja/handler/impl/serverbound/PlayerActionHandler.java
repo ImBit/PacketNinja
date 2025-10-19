@@ -3,6 +3,7 @@ package xyz.bitsquidd.ninja.handler.impl.serverbound;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import org.jetbrains.annotations.NotNull;
+import xyz.bitsquidd.ninja.format.FormatHelper;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
@@ -28,7 +29,7 @@ public class PlayerActionHandler extends PacketHandler<@NotNull ServerboundPlaye
                 Component.text(friendlyName),
                 List.of(
                         PacketInfoSegment.of(Component.text("Action"), Component.text(packet.getAction().toString())),
-                        PacketInfoSegment.of(Component.text("Pos"), Component.text("["+packet.getPos().getX()+","+packet.getPos().getY()+","+packet.getPos().getZ()+"]"))
+                        PacketInfoSegment.of(Component.text("Pos"), Component.text(FormatHelper.formatPosition(packet.getPos())))
                 )
         );
     }

@@ -3,6 +3,7 @@ package xyz.bitsquidd.ninja.handler.impl.clientbound;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import org.jetbrains.annotations.NotNull;
+import xyz.bitsquidd.ninja.format.FormatHelper;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
@@ -29,8 +30,8 @@ public class AddEntityHandler extends PacketHandler<@NotNull ClientboundAddEntit
                 List.of(
                         PacketInfoSegment.of(Component.text("EntityID"), Component.text(packet.getId())),
                         PacketInfoSegment.of(Component.text("UUID"), Component.text(packet.getUUID().toString())),
-                        PacketInfoSegment.of(Component.text("Pos"), Component.text("["+String.format("%.2f", packet.getX())+","+String.format("%.2f", packet.getY())+","+String.format("%.2f", packet.getZ())+"]")),
-                        PacketInfoSegment.of(Component.text("Rotation"), Component.text("["+String.format("%.2f", packet.getXRot())+","+String.format("%.2f", packet.getYRot())+"]"))
+                        PacketInfoSegment.of(Component.text("Pos"), Component.text(FormatHelper.formatPosition(List.of(packet.getX(), packet.getY(), packet.getZ())))),
+                        PacketInfoSegment.of(Component.text("Rot"), Component.text(FormatHelper.formatRotation(packet.getXRot(), packet.getYRot())))
                 )
         );
     }
