@@ -18,6 +18,7 @@ public class PacketRegistry {
         // Clientbound
         registerHandler(new RideEntityPacketHandler());
         registerHandler(new AddEntityPacketHandler());
+        registerHandler(new AddCustomPayloadPacketHandler());
         registerHandler(new RemoveEntityPacketHandler());
         registerHandler(new SetEntityDataHandler());
 

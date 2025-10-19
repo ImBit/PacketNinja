@@ -4,13 +4,11 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BBPacketInterceptor implements ModInitializer {
-    public static final String MOD_ID = "bb-packet-interceptor";
+public class PacketInterceptor implements ModInitializer {
+    public static final String MOD_ID = "packet-ninja";
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     @Override
-    public void onInitialize() {
-        LOGGER.info("Hello Fabric world!");
-    }
+    public void onInitialize() {}
 }
