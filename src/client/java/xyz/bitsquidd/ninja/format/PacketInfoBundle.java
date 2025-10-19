@@ -1,0 +1,48 @@
+package xyz.bitsquidd.ninja.format;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.jspecify.annotations.NullMarked;
+import xyz.bitsquidd.ninja.packets.PacketType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@NullMarked
+public class PacketInfoBundle {
+    private final PacketType type;
+
+    private final Component name;
+    private final List<PacketInfoSegment> segments;
+
+    public PacketInfoBundle(PacketType type, Component name, List<PacketInfoSegment> segments) {
+        this.type = type;
+        this.name = name;
+        this.segments = segments;
+    }
+
+    public Component format() {
+        Component titleComponent = Component.empty()
+                .append(Component.text(type.icon+" "))
+                .append(name
+                        .color(type.primaryColor)
+                        .decorate(TextDecoration.BOLD)
+                );
+
+        List<Component> segmentComponents = segments.stream().map(segment -> Component.empty()
+                .color(type.secondaryColor)
+                .append(Component.text("    -"))
+                .append(segment.getName())
+                .append(Component.text(": "))
+                .append(segment.getValue())
+        ).collect(Collectors.toList());
+
+        List<Component> allComponents = new ArrayList<>(List.of(titleComponent));
+        allComponents.addAll(segmentComponents);
+
+        return Component.join(JoinConfiguration.newlines(), allComponents);
+    }
+
+}

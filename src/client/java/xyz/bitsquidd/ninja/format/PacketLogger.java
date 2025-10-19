@@ -1,19 +1,12 @@
-package xyz.bitsquidd.ninja;
+package xyz.bitsquidd.ninja.format;
 
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
-import net.kyori.adventure.Adventure;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.platform.fabric.PlayerLocales;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.translation.GlobalTranslator;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.server.level.ServerPlayer;
+import xyz.bitsquidd.ninja.PacketRegistry;
 import xyz.bitsquidd.ninja.packets.PacketHandler;
 
 import java.time.Duration;
@@ -37,8 +30,8 @@ public class PacketLogger {
         }
         lastPacketTime = currentTime;
 
-        Component component = handler.formatPacket(packet);
-        sendChatMessage(component);
+        PacketInfoBundle infoBundle = handler.getPacketInfo(packet);
+        sendChatMessage(infoBundle.format());
     }
 
     private void sendChatMessage(final Component component) {

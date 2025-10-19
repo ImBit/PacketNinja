@@ -1,9 +1,8 @@
 package xyz.bitsquidd.ninja.packets;
 
-import net.kyori.adventure.text.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.Packet;
 import org.jspecify.annotations.NullMarked;
+import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 
 @NullMarked
 public abstract class PacketHandler<T extends Packet<?>> {
@@ -20,28 +19,28 @@ public abstract class PacketHandler<T extends Packet<?>> {
         this.packetType = packetType;
     }
     
-    public Class<T> getPacketClass() {
+    public final Class<T> getPacketClass() {
         return packetClass;
     }
     
-    public String getFriendlyName() {
+    public final String getFriendlyName() {
         return friendlyName;
     }
     
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
     
-    public boolean canHandle(Packet<?> packet) {
+    public final boolean canHandle(Packet<?> packet) {
         return packetClass.isInstance(packet);
     }
     
     @SuppressWarnings("unchecked")
-    public Component formatPacket(Packet<?> packet) {
+    public final PacketInfoBundle getPacketInfo(Packet<?> packet) {
         if (!canHandle(packet)) throw new IllegalArgumentException("Cannot handle packet of type: " + packet.getClass().getSimpleName());
 
-        return formatPacketInternal((T) packet);
+        return getPacketInfoInternal((T) packet);
     }
     
-    protected abstract Component formatPacketInternal(T packet);
+    protected abstract PacketInfoBundle getPacketInfoInternal(T packet);
 }

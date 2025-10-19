@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.bitsquidd.ninja.command.PacketInterceptionCommand;
+import xyz.bitsquidd.ninja.format.PacketLogger;
 
 public final class PacketInterceptorMod implements ClientModInitializer {
     public static final String MOD_ID = "packet-interceptor";
