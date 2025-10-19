@@ -3,8 +3,15 @@ package xyz.bitsquidd.ninja;
 import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.bitsquidd.ninja.packets.PacketHandler;
-import xyz.bitsquidd.ninja.packets.impl.*;
+import xyz.bitsquidd.ninja.handler.PacketHandler;
+import xyz.bitsquidd.ninja.handler.impl.*;
+import xyz.bitsquidd.ninja.handler.impl.clientbound.CustomPayloadHandler;
+import xyz.bitsquidd.ninja.handler.impl.clientbound.AddEntityHandler;
+import xyz.bitsquidd.ninja.handler.impl.clientbound.RemoveEntitiesHandler;
+import xyz.bitsquidd.ninja.handler.impl.clientbound.SetPassengersHandler;
+import xyz.bitsquidd.ninja.handler.impl.serverbound.InteractHandler;
+import xyz.bitsquidd.ninja.handler.impl.serverbound.PlayerActionHandler;
+import xyz.bitsquidd.ninja.handler.impl.serverbound.SwingHandler;
 
 import java.util.*;
 
@@ -18,16 +25,15 @@ public class PacketRegistry {
 
     private static void registerHandlers() {
         // Clientbound
-        registerHandler(new RideEntityPacketHandler());
-        registerHandler(new AddEntityPacketHandler());
-        registerHandler(new AddCustomPayloadPacketHandler());
-        registerHandler(new RemoveEntityPacketHandler());
-        registerHandler(new SetEntityDataHandler());
+        registerHandler(new SetPassengersHandler());
+        registerHandler(new AddEntityHandler());
+        registerHandler(new CustomPayloadHandler());
+        registerHandler(new RemoveEntitiesHandler());
 
         // Serverbound
-        registerHandler(new InteractPacketHandler());
-        registerHandler(new BlockPacketHandler());
-        registerHandler(new SwingPacket());
+        registerHandler(new InteractHandler());
+        registerHandler(new PlayerActionHandler());
+        registerHandler(new SwingHandler());
     }
 
     private static void registerHandler(@NotNull PacketHandler<?> handler) {

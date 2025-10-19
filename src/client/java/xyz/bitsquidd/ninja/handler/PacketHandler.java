@@ -1,15 +1,20 @@
-package xyz.bitsquidd.ninja.packets;
+package xyz.bitsquidd.ninja.handler;
 
 import net.minecraft.network.protocol.Packet;
 import org.jspecify.annotations.NullMarked;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 
+import java.util.List;
+
 @NullMarked
 public abstract class PacketHandler<T extends Packet<?>> {
-    private final Class<T> packetClass;
-    private final String friendlyName;
-    private final String description;
+    private static final int MAX_DISPLAYED_ENTRIES = 5;
 
+
+    protected final Class<T> packetClass;
+
+    protected final String friendlyName;
+    protected final String description;
     protected final PacketType packetType;
     
     public PacketHandler(Class<T> packetClass, String friendlyName, String description, PacketType packetType) {
@@ -43,4 +48,29 @@ public abstract class PacketHandler<T extends Packet<?>> {
     }
     
     protected abstract PacketInfoBundle getPacketInfoInternal(T packet);
+
+
+    // Helper functions:
+    protected final String formatList(List<?> entries) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        int size = entries.size();
+
+        boolean tooMany = size > MAX_DISPLAYED_ENTRIES;
+
+        for (int i = 0; i < MAX_DISPLAYED_ENTRIES; i++) {
+            if (i >= size) break;
+            sb.append(entries.get(i));
+            if (i > 0) sb.append(",");
+        }
+
+        if (tooMany) {
+            sb.append("...+").append(size - MAX_DISPLAYED_ENTRIES).append(" more]");
+        } else {
+            sb.append("]");
+        }
+
+        return sb.toString();
+    }
 }

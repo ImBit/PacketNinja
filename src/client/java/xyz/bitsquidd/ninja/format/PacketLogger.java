@@ -7,7 +7,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.network.protocol.Packet;
 import xyz.bitsquidd.ninja.PacketRegistry;
-import xyz.bitsquidd.ninja.packets.PacketHandler;
+import xyz.bitsquidd.ninja.handler.PacketHandler;
 
 import java.time.Duration;
 import java.time.Instant;

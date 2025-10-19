@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component;
 import xyz.bitsquidd.ninja.PacketFilter;
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
 import xyz.bitsquidd.ninja.PacketRegistry;
-import xyz.bitsquidd.ninja.packets.PacketHandler;
+import xyz.bitsquidd.ninja.handler.PacketHandler;
 
 public class PacketInterceptionCommand {
 

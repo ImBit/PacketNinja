@@ -4,23 +4,27 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.jspecify.annotations.NullMarked;
-import xyz.bitsquidd.ninja.packets.PacketType;
+import xyz.bitsquidd.ninja.handler.PacketType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @NullMarked
-public class PacketInfoBundle {
+public final class PacketInfoBundle {
     private final PacketType type;
 
     private final Component name;
     private final List<PacketInfoSegment> segments;
 
-    public PacketInfoBundle(PacketType type, Component name, List<PacketInfoSegment> segments) {
+    private PacketInfoBundle(PacketType type, Component name, List<PacketInfoSegment> segments) {
         this.type = type;
         this.name = name;
         this.segments = segments;
+    }
+
+    public static PacketInfoBundle of(PacketType type, Component name, List<PacketInfoSegment> segments) {
+        return new PacketInfoBundle(type, name, segments);
     }
 
     public Component format() {

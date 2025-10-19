@@ -1,12 +1,12 @@
-package xyz.bitsquidd.ninja.packets;
+package xyz.bitsquidd.ninja.handler;
 
 import net.kyori.adventure.text.format.TextColor;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 public enum PacketType {
-    INCOMING("↓", TextColor.color(0x00ff88), TextColor.color(0xafffd9)),
-    OUTGOING("↑", TextColor.color(0xff3366), TextColor.color(0xffb0c4)),
+    CLIENTBOUND("↓", TextColor.color(0x00ff88), TextColor.color(0xafffd9)),
+    SERVERBOUND("↑", TextColor.color(0xff3366), TextColor.color(0xffb0c4)),
     ;
 
     public final String icon;
