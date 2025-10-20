@@ -1,48 +1,50 @@
 package xyz.bitsquidd.ninja;
 
 import net.minecraft.network.protocol.Packet;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.reflections.Reflections;
 
 import xyz.bitsquidd.ninja.handler.PacketHandler;
-import xyz.bitsquidd.ninja.handler.impl.clientbound.*;
-import xyz.bitsquidd.ninja.handler.impl.serverbound.InteractHandler;
-import xyz.bitsquidd.ninja.handler.impl.serverbound.PlayerActionHandler;
-import xyz.bitsquidd.ninja.handler.impl.serverbound.SwingHandler;
 
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class PacketRegistry {
-    private static final @NotNull Map<Class<? extends Packet<?>>, PacketHandler<?>> handlers = new HashMap<>();
-    private static final @NotNull Map<String, PacketHandler<?>> nameToHandler = new HashMap<>();
+@NullMarked
+public final class PacketRegistry {
+    private static final Map<Class<? extends Packet<?>>, PacketHandler<?>> handlers = new HashMap<>();
+    private static final Map<String, PacketHandler<?>> nameToHandler = new HashMap<>();
 
     static {
         registerHandlers();
     }
 
     private static void registerHandlers() {
-        // Clientbound
-        registerHandler(new SetPassengersHandler());
-        registerHandler(new AddEntityHandler());
-        registerHandler(new CustomPayloadHandler());
-        registerHandler(new RemoveEntitiesHandler());
-        registerHandler(new SetPlayerTeamHandler());
+        try {
+            String basePackage = "xyz.bitsquidd.ninja.handler.impl";
+            Reflections reflections = new Reflections(basePackage);
 
-        // Serverbound
-        registerHandler(new InteractHandler());
-        registerHandler(new PlayerActionHandler());
-        registerHandler(new SwingHandler());
+            Set<Class<? extends PacketHandler>> handlerClasses = reflections.getSubTypesOf(PacketHandler.class);
+            for (Class<? extends PacketHandler> handlerClass : handlerClasses) {
+                if (!Modifier.isAbstract(handlerClass.getModifiers())) {
+                    PacketHandler<?> handler = handlerClass.getDeclaredConstructor().newInstance();
+                    registerHandler(handler);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to register packet handlers via reflection", e);
+        }
     }
 
-    private static void registerHandler(@NotNull PacketHandler<?> handler) {
+    private static void registerHandler(PacketHandler<?> handler) {
         handlers.put(handler.getPacketClass(), handler);
         nameToHandler.put(handler.getFriendlyName().toLowerCase(), handler);
     }
 
-    public static @Nullable PacketHandler<?> getHandlerForPacket(@NotNull Packet<?> packet) {
+    public static @Nullable PacketHandler<?> getHandlerForPacket(Packet<?> packet) {
         return handlers.get(packet.getClass());
     }
 
@@ -51,20 +53,20 @@ public class PacketRegistry {
         return handlers.containsKey(packetClass);
     }
 
-    public static boolean canHandle(@NotNull Packet<?> packet) {
+    public static boolean canHandle(Packet<?> packet) {
         return canHandle(packet.getClass());
     }
 
 
-    public static @NotNull Collection<PacketHandler<?>> getAllHandlers() {
+    public static Collection<PacketHandler<?>> getAllHandlers() {
         return handlers.values();
     }
 
-    public static @NotNull Set<Class<? extends Packet<?>>> getAllPacketClasses() {
+    public static Set<Class<? extends Packet<?>>> getAllPacketClasses() {
         return handlers.keySet();
     }
 
-    public static @Nullable PacketHandler<?> findHandler(@NotNull String input) {
+    public static @Nullable PacketHandler<?> findHandler(String input) {
         PacketHandler<?> handler = nameToHandler.get(input.toLowerCase());
         if (handler != null) return handler;
 
