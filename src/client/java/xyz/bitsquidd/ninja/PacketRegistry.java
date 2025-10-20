@@ -5,10 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import xyz.bitsquidd.ninja.handler.PacketHandler;
-import xyz.bitsquidd.ninja.handler.impl.clientbound.AddEntityHandler;
-import xyz.bitsquidd.ninja.handler.impl.clientbound.CustomPayloadHandler;
-import xyz.bitsquidd.ninja.handler.impl.clientbound.RemoveEntitiesHandler;
-import xyz.bitsquidd.ninja.handler.impl.clientbound.SetPassengersHandler;
+import xyz.bitsquidd.ninja.handler.impl.clientbound.*;
 import xyz.bitsquidd.ninja.handler.impl.serverbound.InteractHandler;
 import xyz.bitsquidd.ninja.handler.impl.serverbound.PlayerActionHandler;
 import xyz.bitsquidd.ninja.handler.impl.serverbound.SwingHandler;
@@ -32,6 +29,7 @@ public class PacketRegistry {
         registerHandler(new AddEntityHandler());
         registerHandler(new CustomPayloadHandler());
         registerHandler(new RemoveEntitiesHandler());
+        registerHandler(new SetPlayerTeamHandler());
 
         // Serverbound
         registerHandler(new InteractHandler());

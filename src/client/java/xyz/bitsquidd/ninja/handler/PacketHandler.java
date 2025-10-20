@@ -2,8 +2,10 @@ package xyz.bitsquidd.ninja.handler;
 
 import net.minecraft.network.protocol.Packet;
 import org.jspecify.annotations.NullMarked;
+
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 
+import java.util.Collection;
 import java.util.List;
 
 @NullMarked
@@ -42,27 +44,29 @@ public abstract class PacketHandler<T extends Packet<?>> {
 
     @SuppressWarnings("unchecked")
     public final PacketInfoBundle getPacketInfo(Packet<?> packet) {
-        if (!canHandle(packet))
+        if (!canHandle(packet)) {
             throw new IllegalArgumentException("Cannot handle packet of type: " + packet.getClass().getSimpleName());
+        }
 
-        return getPacketInfoInternal((T) packet);
+        return getPacketInfoInternal((T)packet);
     }
 
     protected abstract PacketInfoBundle getPacketInfoInternal(T packet);
 
 
     // Helper functions:
-    protected final String formatList(List<?> entries) {
+    protected final String formatList(Collection<?> entries) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
-        int size = entries.size();
+        List<String> entriesList = entries.stream().map(Object::toString).toList();
+        int size = entriesList.size();
 
         boolean tooMany = size > MAX_DISPLAYED_ENTRIES;
 
         for (int i = 0; i < MAX_DISPLAYED_ENTRIES; i++) {
             if (i >= size) break;
-            sb.append(entries.get(i));
+            sb.append(entriesList.get(i));
             if (i > 0) sb.append(",");
         }
 

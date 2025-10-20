@@ -31,7 +31,6 @@ public class RemoveEntitiesHandler extends PacketHandler<@NotNull ClientboundRem
               List.of(
                     PacketInfoSegment.of(Component.text("Count"), Component.text(packet.getEntityIds().size())),
                     PacketInfoSegment.of(Component.text("EntityIds"), Component.text(removedEntityIdList))
-
               )
         );
     }
