@@ -33,8 +33,9 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modCompileOnly("net.kyori:adventure-platform-fabric:6.6.0")
-    modCompileOnly("org.reflections:reflections:0.10.2")
+    include(modImplementation("net.kyori:adventure-platform-fabric:6.6.0"))
+    include(modImplementation("org.reflections:reflections:0.10.2"))
+    include("org.javassist:javassist:3.30.2-GA")
 }
 
 processResources {
