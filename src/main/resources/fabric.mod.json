@@ -1,40 +1,38 @@
 {
-	"schemaVersion": 1,
-	"id": "packet-ninja",
-	"version": "${version}",
-	"name": "Packet Ninja",
-	"description": "Mod to log incoming and outgoing packets to the client.",
-	"authors": [
-		"BitSquidd"
-	],
-	"contact": {
-
-	},
-	"license": "LGPL-3.0",
-	"icon": "assets/ninja/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-          "xyz.bitsquidd.ninja.PacketInterceptor"
-		],
-		"client": [
-          "xyz.bitsquidd.ninja.PacketInterceptorMod"
-		]
-	},
-	"mixins": [
-      "packet-ninja.mixins.json",
-		{
-			"config": "packet-ninja.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.17.2",
-		"minecraft": "~1.21.8",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"suggests": {
-
-	}
+    "schemaVersion": 1,
+    "id": "packet-ninja",
+    "version": "${version}",
+    "name": "Packet Ninja",
+    "description": "Mod to log incoming and outgoing packets to the client.",
+    "authors": [
+        "BitSquidd"
+    ],
+    "contact": {
+    },
+    "license": "LGPL-3.0",
+    "icon": "assets/packet_ninja/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "xyz.bitsquidd.ninja.PacketInterceptor"
+        ],
+        "client": [
+            "xyz.bitsquidd.ninja.PacketInterceptorMod"
+        ]
+    },
+    "mixins": [
+        "packet-ninja.mixins.json",
+        {
+            "config": "packet-ninja.client.mixins.json",
+            "environment": "client"
+        }
+    ],
+    "depends": {
+        "fabricloader": ">=0.17.2",
+        "minecraft": "~1.21.8",
+        "java": ">=21",
+        "fabric-api": "*"
+    },
+    "suggests": {
+    }
 }
