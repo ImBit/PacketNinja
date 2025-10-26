@@ -15,6 +15,8 @@ import xyz.bitsquidd.ninja.PacketInterceptorMod;
 import xyz.bitsquidd.ninja.PacketRegistry;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
+import java.util.List;
+
 public class PacketInterceptionCommand {
 
     private static final SuggestionProvider<FabricClientCommandSource> PACKET_SUGGESTIONS = (context, builder) -> {
@@ -31,8 +33,7 @@ public class PacketInterceptionCommand {
               .then(ClientCommandManager.literal("start").executes(PacketInterceptionCommand::startLogging))
               .then(ClientCommandManager.literal("stop").executes(PacketInterceptionCommand::stopLogging))
               .then(ClientCommandManager.literal("filter")
-                    .then(ClientCommandManager.literal("list")
-                          .executes(PacketInterceptionCommand::listPackets))
+                    .executes(PacketInterceptionCommand::listPackets)
                     .then(ClientCommandManager.argument("packetName", StringArgumentType.word())
                           .suggests(PACKET_SUGGESTIONS)
                           .executes(PacketInterceptionCommand::togglePacket))));
@@ -46,9 +47,14 @@ public class PacketInterceptionCommand {
         );
     }
 
+    public static void sendBlank() {
+        MinecraftClientAudiences.of().audience().sendMessage(Component.empty());
+    }
+
     private static int startLogging(CommandContext<FabricClientCommandSource> ctx) {
         PacketInterceptorMod.logPackets = true;
 
+        sendBlank();
         sendMessage("Started packet logging...", ResponseType.SUCCESS);
         return Command.SINGLE_SUCCESS;
     }
@@ -56,6 +62,7 @@ public class PacketInterceptionCommand {
     private static int stopLogging(CommandContext<FabricClientCommandSource> ctx) {
         PacketInterceptorMod.logPackets = false;
 
+        sendBlank();
         sendMessage("Stopped packet logging...", ResponseType.ERROR);
         return Command.SINGLE_SUCCESS;
     }
@@ -64,12 +71,24 @@ public class PacketInterceptionCommand {
     private static int listPackets(CommandContext<FabricClientCommandSource> ctx) {
         PacketFilter filter = PacketInterceptorMod.getInstance().getPacketFilter();
 
+        sendBlank();
         sendMessage("Logging: " + (PacketInterceptorMod.logPackets ? "ON" : "OFF"), ResponseType.INFO);
         sendMessage("Available Packets:", ResponseType.INFO);
 
-        for (PacketHandler<?> handler : PacketRegistry.getAllHandlers()) {
-            boolean isEnabled = filter.isPacketEnabled(handler.getPacketClass());
-            sendMessage("  " + handler.getFriendlyName() + " - " + handler.getDescription(), isEnabled ? ResponseType.SUCCESS : ResponseType.ERROR);
+        List<PacketHandler<?>> enabledHandlers = PacketRegistry.getAllHandlers().stream()
+              .filter(handler -> filter.isPacketEnabled(handler.getPacketClass()))
+              .toList();
+        List<PacketHandler<?>> disabledHandlers = PacketRegistry.getAllHandlers().stream()
+              .filter(handler -> !filter.isPacketEnabled(handler.getPacketClass()))
+              .toList();
+
+        sendBlank();
+        for (PacketHandler<?> handler : enabledHandlers) {
+            sendMessage("  " + handler.getFriendlyName() + " - " + handler.getDescription(), ResponseType.SUCCESS);
+        }
+        sendBlank();
+        for (PacketHandler<?> handler : disabledHandlers) {
+            sendMessage("  " + handler.getFriendlyName() + " - " + handler.getDescription(), ResponseType.ERROR);
         }
 
         return Command.SINGLE_SUCCESS;

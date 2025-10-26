@@ -8,10 +8,7 @@ import org.reflections.Reflections;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
 import java.lang.reflect.Modifier;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @NullMarked
 public final class PacketRegistry {
@@ -57,9 +54,10 @@ public final class PacketRegistry {
         return canHandle(packet.getClass());
     }
 
-
     public static Collection<PacketHandler<?>> getAllHandlers() {
-        return handlers.values();
+        List<PacketHandler<?>> allHandlers = new ArrayList<>(handlers.values());
+        allHandlers.sort(Comparator.comparing(PacketHandler::getFriendlyName));
+        return allHandlers;
     }
 
     public static Set<Class<? extends Packet<?>>> getAllPacketClasses() {
