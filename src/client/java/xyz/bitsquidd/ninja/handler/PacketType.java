@@ -8,8 +8,8 @@ import org.jspecify.annotations.NullMarked;
  */
 @NullMarked
 public enum PacketType {
-    CLIENTBOUND("↓", TextColor.color(0x00ff88), TextColor.color(0xafffd9)),
-    SERVERBOUND("↑", TextColor.color(0xff3366), TextColor.color(0xffb0c4)),
+    CLIENTBOUND("\uF600", TextColor.color(0x00ff88), TextColor.color(0xafffd9)),
+    SERVERBOUND("\uF601", TextColor.color(0xff3366), TextColor.color(0xffb0c4)),
     ;
 
     public final String icon;

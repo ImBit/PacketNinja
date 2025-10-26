@@ -5,9 +5,9 @@ import org.jspecify.annotations.NullMarked;
 
 @NullMarked
 public enum ResponseType {
-    SUCCESS("✔", TextColor.color(0x00ff88)),
-    ERROR("❌", TextColor.color(0xff3366)),
-    INFO("", TextColor.color(0x0088ff)),
+    SUCCESS("\uF602", TextColor.color(0x00ff88)),
+    ERROR("\uF603", TextColor.color(0xff3366)),
+    INFO("\uF604", TextColor.color(0x33adff)),
     ;
 
     public final String icon;

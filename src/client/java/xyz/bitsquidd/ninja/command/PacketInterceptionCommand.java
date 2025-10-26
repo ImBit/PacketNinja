@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 
 import xyz.bitsquidd.ninja.PacketFilter;
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
@@ -42,7 +41,7 @@ public class PacketInterceptionCommand {
     private static void sendMessage(String message, ResponseType responseType) {
         MinecraftClientAudiences.of().audience().sendMessage(
               Component.empty()
-                    .append(Component.text(responseType.icon + " ").decorate(TextDecoration.BOLD))
+                    .append(Component.text(responseType.icon + " "))
                     .append(Component.text(message).color(responseType.color))
         );
     }
