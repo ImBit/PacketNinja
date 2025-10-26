@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 
 import xyz.bitsquidd.ninja.PacketFilter;
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
@@ -39,11 +40,11 @@ public class PacketInterceptionCommand {
                           .executes(PacketInterceptionCommand::togglePacket))));
     }
 
-    private static void sendMessage(String message, ResponseType responseType) {
+    private static void sendMessage(Component message, ResponseType responseType) {
         MinecraftClientAudiences.of().audience().sendMessage(
               Component.empty()
                     .append(Component.text(responseType.icon + " "))
-                    .append(Component.text(message).color(responseType.color))
+                    .append(message.color(responseType.color))
         );
     }
 
@@ -55,7 +56,7 @@ public class PacketInterceptionCommand {
         PacketInterceptorMod.logPackets = true;
 
         sendBlank();
-        sendMessage("Started packet logging...", ResponseType.SUCCESS);
+        sendMessage(Component.text("Started packet logging..."), ResponseType.SUCCESS);
         return Command.SINGLE_SUCCESS;
     }
 
@@ -63,7 +64,7 @@ public class PacketInterceptionCommand {
         PacketInterceptorMod.logPackets = false;
 
         sendBlank();
-        sendMessage("Stopped packet logging...", ResponseType.ERROR);
+        sendMessage(Component.text("Stopped packet logging..."), ResponseType.ERROR);
         return Command.SINGLE_SUCCESS;
     }
 
@@ -72,8 +73,12 @@ public class PacketInterceptionCommand {
         PacketFilter filter = PacketInterceptorMod.getInstance().getPacketFilter();
 
         sendBlank();
-        sendMessage("Logging: " + (PacketInterceptorMod.logPackets ? "ON" : "OFF"), ResponseType.INFO);
-        sendMessage("Available Packets:", ResponseType.INFO);
+        sendMessage(
+              Component.empty()
+                    .append(Component.text("Logging: ").decorate(TextDecoration.BOLD))
+                    .append(Component.text(PacketInterceptorMod.logPackets ? "ON" : "OFF")),
+              ResponseType.INFO
+        );
 
         List<PacketHandler<?>> enabledHandlers = PacketRegistry.getAllHandlers().stream()
               .filter(handler -> filter.isPacketEnabled(handler.getPacketClass()))
@@ -82,13 +87,36 @@ public class PacketInterceptionCommand {
               .filter(handler -> !filter.isPacketEnabled(handler.getPacketClass()))
               .toList();
 
-        sendBlank();
-        for (PacketHandler<?> handler : enabledHandlers) {
-            sendMessage("  " + handler.getFriendlyName() + " - " + handler.getDescription(), ResponseType.SUCCESS);
+        if (!enabledHandlers.isEmpty()) {
+            sendBlank();
+            sendMessage(
+                  Component.text("Enabled: ").decorate(TextDecoration.BOLD, TextDecoration.UNDERLINED),
+                  ResponseType.SUCCESS
+            );
+            for (PacketHandler<?> handler : enabledHandlers) {
+                sendMessage(
+                      Component.empty()
+                            .append(Component.text(" " + handler.getFriendlyName() + ": ").decorate(TextDecoration.BOLD))
+                            .append(Component.text(handler.getDescription())),
+                      ResponseType.SUCCESS
+                );
+            }
         }
-        sendBlank();
-        for (PacketHandler<?> handler : disabledHandlers) {
-            sendMessage("  " + handler.getFriendlyName() + " - " + handler.getDescription(), ResponseType.ERROR);
+
+        if (!disabledHandlers.isEmpty()) {
+            sendBlank();
+            sendMessage(
+                  Component.text("Disabled: ").decorate(TextDecoration.BOLD, TextDecoration.UNDERLINED),
+                  ResponseType.ERROR
+            );
+            for (PacketHandler<?> handler : disabledHandlers) {
+                sendMessage(
+                      Component.empty()
+                            .append(Component.text(" " + handler.getFriendlyName() + ": ").decorate(TextDecoration.BOLD))
+                            .append(Component.text(handler.getDescription())),
+                      ResponseType.ERROR
+                );
+            }
         }
 
         return Command.SINGLE_SUCCESS;
@@ -101,7 +129,12 @@ public class PacketInterceptionCommand {
         PacketHandler<?> handler = PacketRegistry.findHandler(packetName);
 
         if (handler == null) {
-            sendMessage("Unknown packet: " + packetName, ResponseType.ERROR);
+            sendMessage(
+                  Component.empty()
+                        .append(Component.text("Unknown packet: ").decorate(TextDecoration.BOLD))
+                        .append(Component.text(packetName)),
+                  ResponseType.ERROR
+            );
             return Command.SINGLE_SUCCESS;
         }
 
@@ -109,9 +142,19 @@ public class PacketInterceptionCommand {
         boolean isEnabled = filter.isPacketEnabled(handler.getPacketClass());
 
         if (isEnabled) {
-            sendMessage("Enabled interception for: " + handler.getFriendlyName(), ResponseType.SUCCESS);
+            sendMessage(
+                  Component.empty()
+                        .append(Component.text("Enabled interception for: ").decorate(TextDecoration.BOLD))
+                        .append(Component.text(handler.getFriendlyName())),
+                  ResponseType.SUCCESS
+            );
         } else {
-            sendMessage("Disabled interception for: " + handler.getFriendlyName(), ResponseType.ERROR);
+            sendMessage(
+                  Component.empty()
+                        .append(Component.text("Disabled interception for: ").decorate(TextDecoration.BOLD))
+                        .append(Component.text(handler.getFriendlyName())),
+                  ResponseType.ERROR
+            );
         }
 
         return Command.SINGLE_SUCCESS;
