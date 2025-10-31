@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.FormatHelper;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
@@ -36,7 +37,7 @@ public class SetPlayerTeamHandler extends PacketHandler<@NotNull ClientboundSetP
         segments.add(PacketInfoSegment.of(Component.text("PlayerAction"), Component.text(playerAction != null ? playerAction.name() : "null")));
 
         if (!packet.getPlayers().isEmpty()) {
-            segments.add(PacketInfoSegment.of(Component.text("Players"), Component.text(formatList(packet.getPlayers()))));
+            segments.add(PacketInfoSegment.of(Component.text("Players"), Component.text(FormatHelper.formatList(packet.getPlayers(), MAX_DISPLAYED_ENTRIES))));
         }
 
         packet.getParameters().ifPresent(params -> {

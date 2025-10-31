@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.FormatHelper;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
@@ -25,7 +26,7 @@ public class SetPassengersHandler extends PacketHandler<@NotNull ClientboundSetP
 
     @Override
     protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundSetPassengersPacket packet) {
-        String passengerIdList = formatList(packet.getPassengers().length > 0 ? Arrays.stream(packet.getPassengers()).boxed().toList() : List.of());
+        String passengerIdList = FormatHelper.formatList(packet.getPassengers().length > 0 ? Arrays.stream(packet.getPassengers()).boxed().toList() : List.of(), MAX_DISPLAYED_ENTRIES);
 
         return PacketInfoBundle.of(
               packetType,

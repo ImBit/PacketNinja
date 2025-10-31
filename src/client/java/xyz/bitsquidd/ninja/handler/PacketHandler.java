@@ -5,12 +5,9 @@ import org.jspecify.annotations.NullMarked;
 
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 
-import java.util.Collection;
-import java.util.List;
-
 @NullMarked
 public abstract class PacketHandler<T extends Packet<?>> {
-    private static final int MAX_DISPLAYED_ENTRIES = 5;
+    protected static final int MAX_DISPLAYED_ENTRIES = 5;
 
 
     protected final Class<T> packetClass;
@@ -52,31 +49,5 @@ public abstract class PacketHandler<T extends Packet<?>> {
     }
 
     protected abstract PacketInfoBundle getPacketInfoInternal(T packet);
-
-
-    // Helper functions:
-    protected final String formatList(Collection<?> entries) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-
-        List<String> entriesList = entries.stream().map(Object::toString).toList();
-        int size = entriesList.size();
-
-        boolean tooMany = size > MAX_DISPLAYED_ENTRIES;
-
-        for (int i = 0; i < MAX_DISPLAYED_ENTRIES; i++) {
-            if (i >= size) break;
-            sb.append(entriesList.get(i));
-            if (i > 0) sb.append(",");
-        }
-
-        if (tooMany) {
-            sb.append("...+").append(size - MAX_DISPLAYED_ENTRIES).append(" more]");
-        } else {
-            sb.append("]");
-        }
-
-        return sb.toString();
-    }
 
 }
