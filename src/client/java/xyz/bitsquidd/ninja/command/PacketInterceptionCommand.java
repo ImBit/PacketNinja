@@ -7,13 +7,13 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 
 import xyz.bitsquidd.ninja.PacketFilter;
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
 import xyz.bitsquidd.ninja.PacketRegistry;
+import xyz.bitsquidd.ninja.format.PacketLogger;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class PacketInterceptionCommand {
     }
 
     private static void sendMessage(Component message, ResponseType responseType) {
-        MinecraftClientAudiences.of().audience().sendMessage(
+        PacketLogger.sendChatMessage(
               Component.empty()
                     .append(Component.text(responseType.icon + " "))
                     .append(message.color(responseType.color))
@@ -49,7 +49,7 @@ public class PacketInterceptionCommand {
     }
 
     public static void sendBlank() {
-        MinecraftClientAudiences.of().audience().sendMessage(Component.empty());
+        PacketLogger.sendChatMessage(Component.empty());
     }
 
     private static int startLogging(CommandContext<FabricClientCommandSource> ctx) {

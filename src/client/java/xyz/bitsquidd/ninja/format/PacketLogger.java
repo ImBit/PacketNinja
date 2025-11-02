@@ -1,10 +1,10 @@
 package xyz.bitsquidd.ninja.format;
 
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.Packet;
 import org.jspecify.annotations.NullMarked;
 
@@ -40,9 +40,10 @@ public final class PacketLogger {
         sendChatMessage(infoBundle.format());
     }
 
-    private void sendChatMessage(final Component component) {
-        Audience client = MinecraftClientAudiences.of().audience();
-        client.sendMessage(component);
+    public static void sendChatMessage(final Component component) {
+        Minecraft.getInstance().execute(() -> {
+            MinecraftClientAudiences.of().audience().sendMessage(component);
+        });
     }
 
 }
