@@ -1,5 +1,6 @@
 package xyz.bitsquidd.ninja.handler.impl.serverbound;
 
+import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +25,7 @@ public class SwingHandler extends PacketHandler<@NotNull ServerboundSwingPacket>
     protected @NotNull PacketInfoBundle getPacketInfoInternal(ServerboundSwingPacket packet) {
         return PacketInfoBundle.of(
               packetType,
-              net.kyori.adventure.text.Component.text(friendlyName),
+              Component.text(friendlyName),
               List.of()
         );
     }
