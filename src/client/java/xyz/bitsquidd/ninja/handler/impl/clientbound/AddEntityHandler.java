@@ -3,6 +3,7 @@ package xyz.bitsquidd.ninja.handler.impl.clientbound;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import org.jetbrains.annotations.NotNull;
+
 import xyz.bitsquidd.ninja.format.FormatHelper;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.format.PacketInfoSegment;
@@ -15,24 +16,25 @@ public class AddEntityHandler extends PacketHandler<@NotNull ClientboundAddEntit
 
     public AddEntityHandler() {
         super(
-                ClientboundAddEntityPacket.class,
-                "AddEntity",
-                "Handles entity spawning",
-                PacketType.CLIENTBOUND
+              ClientboundAddEntityPacket.class,
+              "AddEntity",
+              "Handles entity spawning",
+              PacketType.CLIENTBOUND
         );
     }
 
     @Override
     protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundAddEntityPacket packet) {
         return PacketInfoBundle.of(
-                packetType,
-                Component.text(friendlyName),
-                List.of(
-                        PacketInfoSegment.of(Component.text("EntityID"), Component.text(packet.getId())),
-                        PacketInfoSegment.of(Component.text("UUID"), Component.text(packet.getUUID().toString())),
-                        PacketInfoSegment.of(Component.text("Pos"), Component.text(FormatHelper.formatPosition(List.of(packet.getX(), packet.getY(), packet.getZ())))),
-                        PacketInfoSegment.of(Component.text("Rot"), Component.text(FormatHelper.formatRotation(packet.getXRot(), packet.getYRot())))
-                )
+              packetType,
+              Component.text(friendlyName),
+              List.of(
+                    PacketInfoSegment.of(Component.text("EntityID"), Component.text(packet.getId())),
+                    PacketInfoSegment.of(Component.text("Type"), Component.text(packet.getType() + "")),
+                    PacketInfoSegment.of(Component.text("UUID"), Component.text(packet.getUUID() + "")),
+                    PacketInfoSegment.of(Component.text("Pos"), Component.text(FormatHelper.formatPosition(List.of(packet.getX(), packet.getY(), packet.getZ())))),
+                    PacketInfoSegment.of(Component.text("Rot"), Component.text(FormatHelper.formatRotation(packet.getXRot(), packet.getYRot())))
+              )
         );
     }
 
