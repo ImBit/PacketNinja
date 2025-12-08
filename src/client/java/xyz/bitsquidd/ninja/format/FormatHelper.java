@@ -1,7 +1,9 @@
 package xyz.bitsquidd.ninja.format;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -48,4 +50,14 @@ public final class FormatHelper {
 
         return sb.toString();
     }
+
+    public static String formatItemStack(@Nullable ItemStack itemStack) {
+        if (itemStack == null || itemStack.isEmpty()) {
+            return "Empty";
+        }
+        String itemName = itemStack.getItem().toString();
+        int count = itemStack.getCount();
+        return String.format("%s x%d", itemName, count);
+    }
+
 }
