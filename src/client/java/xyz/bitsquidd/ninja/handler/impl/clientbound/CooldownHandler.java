@@ -32,7 +32,7 @@ public class CooldownHandler extends PacketHandler<@NotNull ClientboundCooldownP
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Duration"), Component.text(packet.cooldownGroup().toString())),
+                    PacketInfoSegment.of(Component.text("CooldownGroup"), Component.text(packet.cooldownGroup().toString())),
                     PacketInfoSegment.of(Component.text("Duration"), Component.text(packet.duration()))
               )
         );
