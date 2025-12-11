@@ -1,8 +1,7 @@
 package xyz.bitsquidd.ninja.handler.impl.clientbound;
 
 import net.kyori.adventure.text.Component;
-import net.minecraft.network.protocol.game.ClientboundDebugBlockValuePacket;
-import net.minecraft.network.protocol.game.ClientboundDebugChunkValuePacket;
+import net.minecraft.network.protocol.game.ClientboundDebugEntityValuePacket;
 import org.jetbrains.annotations.NotNull;
 
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
@@ -12,24 +11,24 @@ import xyz.bitsquidd.ninja.handler.PacketType;
 
 import java.util.List;
 
-public class DebugChunkValuePacket extends PacketHandler<@NotNull ClientboundDebugChunkValuePacket> {
+public class DebugEntityValueHandler extends PacketHandler<@NotNull ClientboundDebugEntityValuePacket> {
 
-    public DebugChunkValuePacket() {
+    public DebugEntityValueHandler() {
         super(
-              ClientboundDebugChunkValuePacket.class,
-              "DebugChunkValue",
-              "Handles ClientboundDebugChunkValuePacket.",
+              ClientboundDebugEntityValuePacket.class,
+              "DebugEntityValue",
+              "Handles ClientboundDebugEntityValuePacket.",
               PacketType.CLIENTBOUND
         );
     }
 
     @Override
-    protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundDebugChunkValuePacket packet) {
+    protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundDebugEntityValuePacket packet) {
         return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Position"), Component.text(packet.chunkPos().x + ", " + packet.chunkPos().z)),
+                    PacketInfoSegment.of(Component.text("EntityId"), Component.text(packet.entityId())),
                     PacketInfoSegment.of(Component.text("UpdateSubscription"), Component.text(packet.update().subscription().toString()))
               )
         );
