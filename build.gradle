@@ -1,6 +1,7 @@
 plugins {
     id 'fabric-loom' version "${loom_version}"
     id 'maven-publish'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version
@@ -78,3 +79,17 @@ publishing {
     repositories {
     }
 }
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "eKxg8CAG"
+    versionName = "Packet Ninja ${version}"
+
+    // Changelog is injected by the GitHub Action via the CHANGELOG env var.
+    changelog = System.getenv("CHANGELOG") ?: "No changelog provided."
+    uploadFile = remapJar
+    versionType = "release"
+    syncBodyFrom = rootProject.file("README.md").text
+}
+
+tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
