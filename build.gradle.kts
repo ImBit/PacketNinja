@@ -18,6 +18,11 @@ base {
 repositories {
     mavenCentral()
     maven { url = uri("https://jitpack.io") }
+    maven {
+        name = "Terraformers"
+        url = uri("https://maven.terraformersmc.com/releases")
+    }
+    maven { url = uri("https://maven.shedaniel.me/") }
 }
 
 loom {
@@ -45,7 +50,16 @@ dependencies {
 
     modImplementation(rootProject.libs.adventure.platform)
     modImplementation(rootProject.libs.classgraph)
+
     include(rootProject.libs.javassist)
+    modImplementation(rootProject.libs.reflections)?.let {
+        include(it)
+    }
+
+    modImplementation(rootProject.libs.modmenu)
+    modApi(rootProject.libs.clothconfig) {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
 }
 
 tasks {
