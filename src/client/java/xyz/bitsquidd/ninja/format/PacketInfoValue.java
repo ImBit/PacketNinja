@@ -1,5 +1,6 @@
 package xyz.bitsquidd.ninja.format;
 
+
 import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NullMarked;
 
@@ -8,20 +9,18 @@ import xyz.bitsquidd.ninja.handler.PacketType;
 import java.util.List;
 
 /**
- * A segment of information about a packet, e.g. EntityID: 42
+ * A packet info row that contains a single value.
  */
 @NullMarked
-public final class PacketInfoSegment implements PacketInfoRow, PacketInfoListElement {
-    private final Component name;
+public final class PacketInfoValue implements PacketInfoRow, PacketInfoListElement {
     private final Component value;
 
-    private PacketInfoSegment(Component name, Component value) {
-        this.name = name;
+    private PacketInfoValue(Component value) {
         this.value = value;
     }
 
-    public static PacketInfoSegment of(Component name, Component value) {
-        return new PacketInfoSegment(name, value);
+    public static PacketInfoValue of(Component value) {
+        return new PacketInfoValue(value);
     }
 
     @Override
@@ -29,21 +28,11 @@ public final class PacketInfoSegment implements PacketInfoRow, PacketInfoListEle
         return Component.empty()
               .color(type.secondaryColor)
               .append(Component.text(prefix))
-              .append(name)
-              .append(Component.text(": "))
               .append(value);
     }
 
     @Override
     public List<Component> format(PacketType type) {
         return List.of(formatLine(type, "    ↪ "));
-    }
-
-    public Component getName() {
-        return name;
-    }
-
-    public Component getValue() {
-        return value;
     }
 }

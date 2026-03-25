@@ -4,12 +4,14 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
 import org.jetbrains.annotations.NotNull;
 
-import xyz.bitsquidd.ninja.format.FormatHelper;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
+import xyz.bitsquidd.ninja.format.PacketInfoList;
+import xyz.bitsquidd.ninja.format.PacketInfoRow;
 import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RemoveEntitiesHandler extends PacketHandler<@NotNull ClientboundRemoveEntitiesPacket> {
@@ -24,15 +26,33 @@ public class RemoveEntitiesHandler extends PacketHandler<@NotNull ClientboundRem
 
     @Override
     protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundRemoveEntitiesPacket packet) {
-        String removedEntityIdList = FormatHelper.formatList(packet.getEntityIds().stream().toList(), MAX_DISPLAYED_ENTRIES);
+        var allEntityIds = packet.getEntityIds();
+        int totalCount = allEntityIds.size();
 
-        return PacketInfoBundle.of(
+        List<Integer> displayedIds = allEntityIds.intStream()
+              .limit(MAX_DISPLAYED_ENTRIES)
+              .boxed()
+              .toList();
+
+        List<PacketInfoRow> rows = new ArrayList<>();
+        rows.add(PacketInfoSegment.of(Component.text("Count"), Component.text(totalCount)));
+
+        if (!displayedIds.isEmpty()) {
+            List<PacketInfoSegment> idSegments = displayedIds.stream()
+                  .map(id -> PacketInfoSegment.of(Component.text("EntityId"), Component.text(id)))
+                  .toList();
+            rows.add(PacketInfoList.of(Component.text("EntityIds"), new ArrayList<>(idSegments)));
+        }
+
+        int hiddenEntities = totalCount - displayedIds.size();
+        if (hiddenEntities > 0) {
+            rows.add(PacketInfoSegment.of(Component.text("EntityIdsHidden"), Component.text(hiddenEntities + " more")));
+        }
+
+        return PacketInfoBundle.ofRows(
               packetType,
               Component.text(friendlyName),
-              List.of(
-                    PacketInfoSegment.of(Component.text("Count"), Component.text(packet.getEntityIds().size())),
-                    PacketInfoSegment.of(Component.text("EntityIds"), Component.text(removedEntityIdList))
-              )
+              rows
         );
     }
 

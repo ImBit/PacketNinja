@@ -2,13 +2,17 @@ package xyz.bitsquidd.ninja.format;
 
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.Packet;
 import org.jspecify.annotations.NullMarked;
 
 import xyz.bitsquidd.ninja.PacketRegistry;
+import xyz.bitsquidd.ninja.config.Config;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
+import java.time.Duration;
 import java.time.Instant;
 
 /**
@@ -23,24 +27,27 @@ public final class PacketLogger {
         PacketHandler<?> handler = PacketRegistry.getHandlerForPacket(packet);
         if (handler == null) return;
 
-        // TODO add a config option for this.
-        Instant currentTime = Instant.now();
-//        if (Duration.between(lastPacketTime, currentTime).compareTo(Duration.ofMillis(500)) < 0) {
-//            sendChatMessage(
-//                  Component.text("...", NamedTextColor.GRAY)
-//                        .hoverEvent(HoverEvent.showText(Component.text("Too many packets sent within 500ms, hiding."))
-//                        ));
-//        }
-        lastPacketTime = currentTime;
+        var delayRequired = Config.packetDelayMs;
+        if(delayRequired > 0) {
+            Instant currentTime = Instant.now();
+            if (Duration.between(lastPacketTime, currentTime).compareTo(Duration.ofMillis(delayRequired)) < 0) {
+                sendChatMessage(
+                      Component.text("...", NamedTextColor.GRAY)
+                            .hoverEvent(HoverEvent.showText(Component.text(String.format("Too many packets sent within %s, hiding.", delayRequired)))
+                            ));
+                return;
+            }
+            lastPacketTime = currentTime;
+        }
 
         PacketInfoBundle infoBundle = handler.getPacketInfo(packet);
         sendChatMessage(infoBundle.format());
     }
 
     public static void sendChatMessage(final Component component) {
-        Minecraft.getInstance().execute(() -> {
-            MinecraftClientAudiences.of().audience().sendMessage(component);
-        });
+        Minecraft.getInstance().execute(() ->
+            MinecraftClientAudiences.of().audience().sendMessage(component)
+        );
     }
 
 }

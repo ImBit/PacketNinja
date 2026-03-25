@@ -9,7 +9,6 @@ import xyz.bitsquidd.ninja.handler.PacketType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * A bundle of information about a packet sent to a client. This structure is used for pretty formatting.
@@ -19,16 +18,20 @@ public final class PacketInfoBundle {
     private final PacketType type;
 
     private final Component name;
-    private final List<PacketInfoSegment> segments;
+    private final List<PacketInfoRow> rows;
 
-    private PacketInfoBundle(PacketType type, Component name, List<PacketInfoSegment> segments) {
+    private PacketInfoBundle(PacketType type, Component name, List<PacketInfoRow> rows) {
         this.type = type;
         this.name = name;
-        this.segments = segments;
+        this.rows = rows;
     }
 
     public static PacketInfoBundle of(PacketType type, Component name, List<PacketInfoSegment> segments) {
-        return new PacketInfoBundle(type, name, segments);
+        return ofRows(type, name, new ArrayList<>(segments));
+    }
+
+    public static PacketInfoBundle ofRows(PacketType type, Component name, List<? extends PacketInfoRow> rows) {
+        return new PacketInfoBundle(type, name, new ArrayList<>(rows));
     }
 
     public Component format() {
@@ -39,13 +42,10 @@ public final class PacketInfoBundle {
                     .decorate(TextDecoration.BOLD)
               );
 
-        List<Component> segmentComponents = segments.stream().map(segment -> Component.empty()
-              .color(type.secondaryColor)
-              .append(Component.text("    ↪ "))
-              .append(segment.getName())
-              .append(Component.text(": "))
-              .append(segment.getValue())
-        ).collect(Collectors.toList());
+        List<Component> segmentComponents = new ArrayList<>();
+        for (PacketInfoRow row : rows) {
+            segmentComponents.addAll(row.format(type));
+        }
 
         List<Component> allComponents = new ArrayList<>(List.of(titleComponent));
         allComponents.addAll(segmentComponents);
