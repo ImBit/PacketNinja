@@ -36,7 +36,7 @@ public class PlayerInfoUpdateHandler extends PacketHandler<@NotNull ClientboundP
         }
 
         // here is the fun part: displayName is Minecraft's Component, we want to convert it to MiniMessage
-        var jsonElement = ComponentSerialization.CODEC.encodeStart(JsonOps.COMPRESSED, displayName)
+        var jsonElement = ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, displayName)
               .resultOrPartial(error ->
                   PacketInterceptorMod.LOGGER.error("Failed to serialize displayName for player {}: {}", entry.profileId(), error)
               )
@@ -62,7 +62,7 @@ public class PlayerInfoUpdateHandler extends PacketHandler<@NotNull ClientboundP
             // identity
             var displayName = extractDisplayName(entry);
             var identity = String.format("displayName=%s, uuid=%s", displayName, entry.profileId());
-            var identitySegment = PacketInfoSegment.of(Component.text("Identity"), Component.text(identity));
+            var identitySegment = PacketInfoSegment.of(Component.text("Identity"), MiniMessage.miniMessage().deserialize(identity));
 
             // state
             String state = String.format(
@@ -72,9 +72,9 @@ public class PlayerInfoUpdateHandler extends PacketHandler<@NotNull ClientboundP
                   entry.showHat(),
                   entry.latency()
             );
-            var stateSegment = PacketInfoSegment.of(Component.text("State"), MiniMessage.miniMessage().deserialize(state));
+            var stateSegment = PacketInfoSegment.of(Component.text("State"), Component.text(state));
 
-            String name = entry.profile() != null ? entry.profile().name() : "<none>";
+            String name = entry.profile() != null ? entry.profile().name() : entry.profileId().toString();
             return PacketInfoList.of(Component.text(name), List.of(identitySegment, stateSegment));
         }).toList();
 

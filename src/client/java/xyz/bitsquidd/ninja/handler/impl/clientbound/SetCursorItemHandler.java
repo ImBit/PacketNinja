@@ -1,6 +1,5 @@
 package xyz.bitsquidd.ninja.handler.impl.clientbound;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import net.kyori.adventure.text.Component;
@@ -34,7 +33,7 @@ public class SetCursorItemHandler extends PacketHandler<@NotNull ClientboundSetC
         var itemCount = stack.getCount();
 
         // serialize nbt as snbt
-        var encodeResult = ItemStack.CODEC.encodeStart(JsonOps.COMPRESSED, stack);
+        var encodeResult = ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, stack);
         var json = encodeResult.resultOrPartial(PacketInterceptorMod.LOGGER::error).orElse(new JsonObject()); // return empty on error
 
         return PacketInfoBundle.of(
