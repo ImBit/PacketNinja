@@ -1,6 +1,7 @@
 package xyz.bitsquidd.ninja.format;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -52,12 +53,22 @@ public final class FormatHelper {
     }
 
     public static String formatItemStack(@Nullable ItemStack itemStack) {
-        if (itemStack == null || itemStack.isEmpty()) {
-            return "Empty";
-        }
+        if (itemStack == null || itemStack.isEmpty()) return "Empty";
         String itemName = itemStack.getItem().toString();
         int count = itemStack.getCount();
         return String.format("%s x%d", itemName, count);
+    }
+
+    public static String formatAttribute(ClientboundUpdateAttributesPacket.AttributeSnapshot snapshot) {
+        String attributeName = snapshot.attribute().value().getDescriptionId();
+        StringBuilder modifiers = new StringBuilder();
+
+        snapshot.modifiers().forEach(modifier -> {
+            if (!modifiers.isEmpty()) modifiers.append(", ");
+            modifiers.append(String.format("%s %.2f", modifier.id(), modifier.amount()));
+        });
+
+        return String.format("%s=[%s]", attributeName, modifiers);
     }
 
 }

@@ -95,6 +95,7 @@ modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "eKxg8CAG"
     versionName = "Packet Ninja ${version}"
+    versionNumber = mod_version
 
     // Changelog is injected by the GitHub Action via the CHANGELOG env var.
     changelog = System.getenv("CHANGELOG") ?: "No changelog provided."
