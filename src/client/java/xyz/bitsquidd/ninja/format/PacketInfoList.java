@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Displays a titled list of key-value entries inside a packet info bundle.
+ * Displays a titled list of entries inside a packet info bundle.
  */
 @NullMarked
 public final class PacketInfoList implements PacketInfoRow {

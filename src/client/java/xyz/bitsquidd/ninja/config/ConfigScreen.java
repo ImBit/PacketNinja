@@ -27,7 +27,7 @@ public class ConfigScreen {
                           "to actually log a packet, otherwise it'll be replaced with \"...\""
               ))
               .setSaveConsumer(newValue -> {
-                  int step = 50; // example
+                  int step = 50;
                   Config.packetDelayMs = (newValue / step) * step;
                   Config.save();
               })

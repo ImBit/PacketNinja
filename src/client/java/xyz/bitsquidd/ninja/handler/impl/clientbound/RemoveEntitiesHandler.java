@@ -4,10 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
 import org.jetbrains.annotations.NotNull;
 
-import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoList;
-import xyz.bitsquidd.ninja.format.PacketInfoRow;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
+import xyz.bitsquidd.ninja.format.*;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -38,8 +35,8 @@ public class RemoveEntitiesHandler extends PacketHandler<@NotNull ClientboundRem
         rows.add(PacketInfoSegment.of(Component.text("Count"), Component.text(totalCount)));
 
         if (!displayedIds.isEmpty()) {
-            List<PacketInfoSegment> idSegments = displayedIds.stream()
-                  .map(id -> PacketInfoSegment.of(Component.text("EntityId"), Component.text(id)))
+            var idSegments = displayedIds.stream()
+                  .map(id -> PacketInfoValue.of(Component.text(id)))
                   .toList();
             rows.add(PacketInfoList.of(Component.text("EntityIds"), new ArrayList<>(idSegments)));
         }
