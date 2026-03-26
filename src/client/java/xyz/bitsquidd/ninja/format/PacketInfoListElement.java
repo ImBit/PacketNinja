@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
 /**
- * Represents an element of a [PacketInfoList].
+ * Represents an element of a {@link PacketInfoList}.
  */
 public interface PacketInfoListElement {
     Component formatLine(PacketType type, String prefix);

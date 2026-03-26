@@ -35,7 +35,7 @@ public class PlayerInfoUpdateHandler extends PacketHandler<@NotNull ClientboundP
             return "<none>";
         }
 
-        // here is the fun part: displayName is Minecraft's Component, we want to convert it to MiniMessage
+        // convert Minecraft's native Component into MiniMessage so we can properly display it
         var jsonElement = ComponentSerialization.CODEC.encodeStart(JsonOps.INSTANCE, displayName)
               .resultOrPartial(error ->
                   PacketInterceptorMod.LOGGER.error("Failed to serialize displayName for player {}: {}", entry.profileId(), error)

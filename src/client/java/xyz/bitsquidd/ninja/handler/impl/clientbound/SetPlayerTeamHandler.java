@@ -37,7 +37,6 @@ public class SetPlayerTeamHandler extends PacketHandler<@NotNull ClientboundSetP
         rows.add(PacketInfoSegment.of(Component.text("TeamAction"), Component.text(teamAction != null ? teamAction.name() : "null")));
         rows.add(PacketInfoSegment.of(Component.text("PlayerAction"), Component.text(playerAction != null ? playerAction.name() : "null")));
 
-        // Add players as structured list
         if (!packet.getPlayers().isEmpty()) {
             List<String> playerList = packet.getPlayers().stream()
                   .limit(MAX_DISPLAYED_ENTRIES)
