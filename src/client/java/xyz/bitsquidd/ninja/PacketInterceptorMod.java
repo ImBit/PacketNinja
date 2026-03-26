@@ -31,10 +31,10 @@ public final class PacketInterceptorMod implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        Config.load();
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
             PacketInterceptionCommand.register(dispatcher)
         );
-        Config.load();
     }
 
     public @NotNull PacketFilter getPacketFilter() {

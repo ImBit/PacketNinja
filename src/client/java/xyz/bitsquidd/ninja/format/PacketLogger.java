@@ -33,7 +33,7 @@ public final class PacketLogger {
             if (Duration.between(lastPacketTime, currentTime).compareTo(Duration.ofMillis(delayRequired)) < 0) {
                 sendChatMessage(
                       Component.text("...", NamedTextColor.GRAY)
-                            .hoverEvent(HoverEvent.showText(Component.text(String.format("Too many packets sent within %s, hiding.", delayRequired)))
+                            .hoverEvent(HoverEvent.showText(Component.text(String.format("Too many packets sent within %sms, hiding.", delayRequired)))
                             ));
                 return;
             }

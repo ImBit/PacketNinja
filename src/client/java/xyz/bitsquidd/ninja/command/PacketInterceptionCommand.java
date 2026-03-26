@@ -135,7 +135,7 @@ public class PacketInterceptionCommand {
                         .append(Component.text(packetName)),
                   ResponseType.ERROR
             );
-            return 0;
+            return Command.SINGLE_SUCCESS;
         }
 
         filter.togglePacketFilter(handler.getFriendlyName());
