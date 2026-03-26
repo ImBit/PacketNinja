@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.errorprone)
 }
 
-version = "0.0.6"
 group = "xyz.bitsquidd"
 
 base {
@@ -44,7 +43,7 @@ dependencies {
 
     modImplementation(rootProject.libs.bits.api)
     include(rootProject.libs.bits.api)
-    
+
     include(rootProject.libs.javassist)
 
     errorprone(rootProject.libs.errorprone)
