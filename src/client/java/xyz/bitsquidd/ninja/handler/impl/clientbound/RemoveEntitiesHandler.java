@@ -46,7 +46,7 @@ public class RemoveEntitiesHandler extends PacketHandler<@NotNull ClientboundRem
             rows.add(PacketInfoSegment.of(Component.text("EntityIdsHidden"), Component.text(hiddenEntities + " more")));
         }
 
-        return PacketInfoBundle.ofRows(
+        return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               rows

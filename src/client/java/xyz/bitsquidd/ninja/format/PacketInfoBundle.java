@@ -26,11 +26,7 @@ public final class PacketInfoBundle {
         this.rows = rows;
     }
 
-    public static PacketInfoBundle of(PacketType type, Component name, List<PacketInfoSegment> segments) {
-        return ofRows(type, name, new ArrayList<>(segments));
-    }
-
-    public static PacketInfoBundle ofRows(PacketType type, Component name, List<? extends PacketInfoRow> rows) {
+    public static PacketInfoBundle of(PacketType type, Component name, List<? extends PacketInfoRow> rows) {
         return new PacketInfoBundle(type, name, new ArrayList<>(rows));
     }
 

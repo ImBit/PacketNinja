@@ -46,7 +46,7 @@ public class SetPassengersHandler extends PacketHandler<@NotNull ClientboundSetP
             rows.add(PacketInfoSegment.of(Component.text("PassengersHidden"), Component.text(hiddenPassengers + " more")));
         }
 
-        return PacketInfoBundle.ofRows(
+        return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               rows

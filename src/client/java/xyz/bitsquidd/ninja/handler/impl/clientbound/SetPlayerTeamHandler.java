@@ -90,7 +90,7 @@ public class SetPlayerTeamHandler extends PacketHandler<@NotNull ClientboundSetP
             rows.add(PacketInfoSegment.of(Component.text("Options"), Component.text(String.format("0x%02X", params.getOptions()))));
         });
 
-        return PacketInfoBundle.ofRows(
+        return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               rows

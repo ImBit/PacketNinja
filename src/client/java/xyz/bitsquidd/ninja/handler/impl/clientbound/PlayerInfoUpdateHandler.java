@@ -80,7 +80,7 @@ public class PlayerInfoUpdateHandler extends PacketHandler<@NotNull ClientboundP
 
         rows.addAll(entryLists);
 
-        return PacketInfoBundle.ofRows(
+        return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               rows

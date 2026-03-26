@@ -45,10 +45,10 @@ dependencies {
     modImplementation(rootProject.libs.fabric.api)
 
     modImplementation(rootProject.libs.adventure.platform)
+    include(rootProject.libs.adventure.platform)
 
     modImplementation(rootProject.libs.bits.api)
     include(rootProject.libs.bits.api)
-
     include(rootProject.libs.javassist)
 
     modImplementation(rootProject.libs.modmenu)

@@ -4,10 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket;
 import org.jetbrains.annotations.NotNull;
 
-import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoList;
-import xyz.bitsquidd.ninja.format.PacketInfoRow;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
+import xyz.bitsquidd.ninja.format.*;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -37,10 +34,9 @@ public class CommandSuggestionsResponseHandler extends PacketHandler<@NotNull Cl
 
         // Display suggestions as a structured list
         if (!suggestions.isEmpty()) {
-            List<PacketInfoSegment> suggestionSegments = suggestions.stream()
+            var suggestionSegments = suggestions.stream()
                   .limit(MAX_DISPLAYED_ENTRIES)
-                  .map(entry -> PacketInfoSegment.of(
-                        Component.text("Suggestion"),
+                  .map(entry -> PacketInfoValue.of(
                         Component.text(entry.text())
                   ))
                   .toList();
@@ -52,7 +48,7 @@ public class CommandSuggestionsResponseHandler extends PacketHandler<@NotNull Cl
             }
         }
 
-        return PacketInfoBundle.ofRows(
+        return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               rows

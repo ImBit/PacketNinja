@@ -4,11 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
 import org.jetbrains.annotations.NotNull;
 
-import xyz.bitsquidd.ninja.format.FormatHelper;
-import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoList;
-import xyz.bitsquidd.ninja.format.PacketInfoRow;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
+import xyz.bitsquidd.ninja.format.*;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -28,9 +24,9 @@ public class ContainerSetContentHandler extends PacketHandler<@NotNull Clientbou
 
     @Override
     protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundContainerSetContentPacket packet) {
-        List<PacketInfoSegment> itemSegments = packet.items().stream()
+        var itemSegments = packet.items().stream()
               .limit(MAX_DISPLAYED_ENTRIES)
-              .map(item -> PacketInfoSegment.of(Component.text("Item"), Component.text(FormatHelper.formatItemStack(item))))
+              .map(item -> PacketInfoValue.of(Component.text(FormatHelper.formatItemStack(item))))
               .toList();
 
         List<PacketInfoRow> rows = new ArrayList<>();
@@ -48,7 +44,7 @@ public class ContainerSetContentHandler extends PacketHandler<@NotNull Clientbou
 
         rows.add(PacketInfoSegment.of(Component.text("CarriedItem"), Component.text(FormatHelper.formatItemStack(packet.carriedItem()))));
 
-        return PacketInfoBundle.ofRows(
+        return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               rows

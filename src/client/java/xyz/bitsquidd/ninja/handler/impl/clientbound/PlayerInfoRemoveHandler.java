@@ -29,7 +29,7 @@ public class PlayerInfoRemoveHandler extends PacketHandler<@NotNull ClientboundP
         var rows = new ArrayList<PacketInfoRow>();
         rows.add(PacketInfoList.of(Component.text("Removed UUIDs"), removed));
 
-        return PacketInfoBundle.ofRows(
+        return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               rows
