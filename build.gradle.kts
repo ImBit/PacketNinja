@@ -17,6 +17,7 @@ base {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven { url = uri("https://jitpack.io") }
 }
 
@@ -39,13 +40,14 @@ dependencies {
     modImplementation(rootProject.libs.fabric.loader)
     modImplementation(rootProject.libs.fabric.api)
 
-    errorprone(rootProject.libs.errorprone)
-
-//    modApi(rootProject.libs.bits.api)
-
     modImplementation(rootProject.libs.adventure.platform)
-    modImplementation(rootProject.libs.classgraph)
+
+    modImplementation(rootProject.libs.bits.api)
+    include(rootProject.libs.bits.api)
+    
     include(rootProject.libs.javassist)
+
+    errorprone(rootProject.libs.errorprone)
 }
 
 tasks {

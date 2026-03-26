@@ -3,36 +3,27 @@ package xyz.bitsquidd.ninja;
 import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
-import org.reflections.Reflections;
 
+import xyz.bitsquidd.bits.log.Logger;
+import xyz.bitsquidd.bits.util.Safety;
+import xyz.bitsquidd.bits.util.reflection.ClassGraph;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
-import java.lang.reflect.Modifier;
 import java.util.*;
 
 @NullMarked
 public final class PacketRegistry {
+    private static final String HANDLER_PACKAGE = "xyz.bitsquidd.ninja.handler.impl";
+
     private static final Map<Class<? extends Packet<?>>, PacketHandler<?>> handlers = new HashMap<>();
     private static final Map<String, PacketHandler<?>> nameToHandler = new HashMap<>();
 
     static {
-        registerHandlers();
-    }
-
-    private static void registerHandlers() {
         try {
-            String basePackage = "xyz.bitsquidd.ninja.handler.impl";
-            Reflections reflections = new Reflections(basePackage);
-
-            Set<Class<? extends PacketHandler>> handlerClasses = reflections.getSubTypesOf(PacketHandler.class);
-            for (Class<? extends PacketHandler> handlerClass : handlerClasses) {
-                if (!Modifier.isAbstract(handlerClass.getModifiers())) {
-                    PacketHandler<?> handler = handlerClass.getDeclaredConstructor().newInstance();
-                    registerHandler(handler);
-                }
-            }
+            ClassGraph.Scanner.getClasses(HANDLER_PACKAGE, PacketHandler.class)
+                  .forEach(clazz -> Safety.safeExecute(() -> registerHandler(ClassGraph.Instance.create(clazz))));
         } catch (Exception e) {
-            throw new RuntimeException("Failed to register packet handlers via reflection", e);
+            Logger.exception("Failed to register packet handlers", e);
         }
     }
 
