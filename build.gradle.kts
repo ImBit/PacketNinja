@@ -17,6 +17,7 @@ base {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven { url = uri("https://jitpack.io") }
     maven {
         name = "Terraformers"
@@ -44,13 +45,10 @@ dependencies {
     modImplementation(rootProject.libs.fabric.loader)
     modImplementation(rootProject.libs.fabric.api)
 
-    errorprone(rootProject.libs.errorprone)
-
-//    modApi(rootProject.libs.bits.api)
-
     modImplementation(rootProject.libs.adventure.platform)
-    modImplementation(rootProject.libs.classgraph)
 
+    modImplementation(rootProject.libs.bits.api)
+    include(rootProject.libs.bits.api)
     include(rootProject.libs.javassist)
     modImplementation(rootProject.libs.reflections)?.let {
         include(it)
@@ -60,6 +58,8 @@ dependencies {
     modApi(rootProject.libs.clothconfig) {
         exclude(group = "net.fabricmc.fabric-api")
     }
+
+    errorprone(rootProject.libs.errorprone)
 }
 
 tasks {
