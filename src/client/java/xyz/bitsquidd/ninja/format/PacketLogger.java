@@ -2,8 +2,6 @@ package xyz.bitsquidd.ninja.format;
 
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.Packet;
 import org.jspecify.annotations.NullMarked;
@@ -20,7 +18,6 @@ import java.time.Instant;
  */
 @NullMarked
 public final class PacketLogger {
-
     private Instant lastPacketTime = Instant.EPOCH;
 
     public void addPacket(final Packet<?> packet) {
@@ -31,10 +28,12 @@ public final class PacketLogger {
         if (delayRequired.isPositive()) {
             Instant currentTime = Instant.now();
             if (Duration.between(lastPacketTime, currentTime).compareTo(delayRequired) < 0) {
-                sendChatMessage(
-                      Component.text("...", NamedTextColor.GRAY)
-                            .hoverEvent(HoverEvent.showText(Component.text(String.format("Too many packets sent within %sms, hiding.", delayRequired))))
-                );
+                // TODO: Displaying that no packet was "sent" should be re-thought.
+                //  This doesn't help if there are lots of packets, it still spams the chat with "..."
+//                sendChatMessage(
+//                      Component.text("...", NamedTextColor.GRAY)
+//                            .hoverEvent(HoverEvent.showText(Component.text(String.format("Too many packets sent within %sms, hiding.", delayRequired))))
+//                );
                 return;
             }
             lastPacketTime = currentTime;

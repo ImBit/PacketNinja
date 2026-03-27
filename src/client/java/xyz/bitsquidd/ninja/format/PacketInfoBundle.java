@@ -30,7 +30,7 @@ public final class PacketInfoBundle {
     }
 
     public Component format() {
-        TextComponent.Builder infoBuilder = Component.text();
+        TextComponent.Builder infoBuilder = Component.text().color(type.secondaryColor);
 
         infoBuilder.append(Component.text(type.icon + " "));
         infoBuilder.append(PacketInfo.list(name.decorate(TextDecoration.BOLD), info).format(type));

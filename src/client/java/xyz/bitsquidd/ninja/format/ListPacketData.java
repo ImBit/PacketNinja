@@ -31,7 +31,7 @@ public final class ListPacketData implements PacketInfo {
 
         subInfo.forEach(info -> lineBuilder
               .appendNewline()
-              .append(Component.text("    ↪ "))
+              .append(Component.text("  ↪ "))
               .append(info.format(type)));
 
         return lineBuilder.build();

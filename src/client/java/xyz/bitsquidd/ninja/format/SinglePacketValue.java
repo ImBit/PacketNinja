@@ -13,6 +13,6 @@ public class SinglePacketValue implements PacketInfo {
 
     @Override
     public Component format(PacketType type) {
-        return value.color(type.secondaryColor);
+        return value;
     }
 }

@@ -22,6 +22,6 @@ public class SinglePacketData implements PacketInfo {
         return Component.empty()
               .append(name.color(type.primaryColor))
               .append(Component.text(": "))
-              .append(value.color(type.secondaryColor));
+              .append(value);
     }
 }
