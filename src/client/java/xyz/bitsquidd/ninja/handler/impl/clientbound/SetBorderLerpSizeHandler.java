@@ -15,8 +15,8 @@ public class SetBorderLerpSizeHandler extends PacketHandler<ClientboundSetBorder
     public SetBorderLerpSizeHandler() {
         super(
               ClientboundSetBorderLerpSizePacket.class,
-              "SetBorderSize",
-              "Handles world border size updates",
+              "SetBorderLerpSize",
+              "Handles world border size lerp updates",
               PacketType.CLIENTBOUND
         );
     }
