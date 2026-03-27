@@ -1,0 +1,11 @@
+More refined packet filtering:
+  [ ] Per-packet customisation e.g. AddEntity range [1000, 99999]
+
+Better config:
+  [ ] Nicer menu for packet enabling
+  [ ] Save packet filtering preferences to config
+
+More info:
+  [ ] Hover on message to show more info:
+    [ ] Timestamp
+    [ ] Packet size?
