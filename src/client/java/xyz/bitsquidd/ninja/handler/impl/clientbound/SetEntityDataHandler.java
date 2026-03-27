@@ -7,8 +7,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -41,9 +41,9 @@ public class SetEntityDataHandler extends PacketHandler<@NotNull ClientboundSetE
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("EntityID"), Component.text(entityId)),
-                    PacketInfoSegment.of(Component.text("Type*"), Component.text(entityType + "")), // Note: Type is not part of the packet, we resolve it for debugging purposes.
-                    PacketInfoSegment.of(Component.text("MetadataCount"), Component.text(items.size()))
+                    PacketInfo.data(Component.text("EntityID"), Component.text(entityId)),
+                    PacketInfo.data(Component.text("Type*"), Component.text(entityType + "")), // Note: Type is not part of the packet, we resolve it for debugging purposes.
+                    PacketInfo.data(Component.text("MetadataCount"), Component.text(items.size()))
               )
         );
     }

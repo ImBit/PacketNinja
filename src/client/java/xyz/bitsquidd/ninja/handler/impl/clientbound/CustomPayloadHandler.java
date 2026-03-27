@@ -6,8 +6,8 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -35,10 +35,10 @@ public class CustomPayloadHandler extends PacketHandler<@NotNull ClientboundCust
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Type"), Component.text(typeId.getNamespace() + ":" + typeId.getPath())),
-                    PacketInfoSegment.of(Component.text("Path"), Component.text(typeId.getPath())),
-                    PacketInfoSegment.of(Component.text("PayloadClass"), Component.text(payload.getClass().getSimpleName())),
-                    PacketInfoSegment.of(Component.text("PayloadString"), Component.text(payload.toString()))
+                    PacketInfo.data(Component.text("Type"), Component.text(typeId.getNamespace() + ":" + typeId.getPath())),
+                    PacketInfo.data(Component.text("Path"), Component.text(typeId.getPath())),
+                    PacketInfo.data(Component.text("PayloadClass"), Component.text(payload.getClass().getSimpleName())),
+                    PacketInfo.data(Component.text("PayloadString"), Component.text(payload.toString()))
               )
         );
     }

@@ -1,26 +1,26 @@
 package xyz.bitsquidd.ninja.handler.impl.clientbound;
 
 import com.google.gson.Gson;
+import com.mojang.serialization.JsonOps;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import org.jetbrains.annotations.NotNull;
-import com.mojang.serialization.JsonOps;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
 import java.util.List;
 
-public class SystemChatHandler extends PacketHandler<@NotNull ClientboundSystemChatPacket>  {
+public class SystemChatHandler extends PacketHandler<@NotNull ClientboundSystemChatPacket> {
     public SystemChatHandler() {
         super(
-                ClientboundSystemChatPacket.class,
-                "SystemChat",
-                "Handles system chat messages",
-                PacketType.CLIENTBOUND
+              ClientboundSystemChatPacket.class,
+              "SystemChat",
+              "Handles system chat messages",
+              PacketType.CLIENTBOUND
         );
     }
 
@@ -31,14 +31,15 @@ public class SystemChatHandler extends PacketHandler<@NotNull ClientboundSystemC
         final var jsonString = gson.toJson(jsonElement);
 
         return PacketInfoBundle.of(
-                packetType,
-                Component.text(friendlyName),
-                List.of(
-                        PacketInfoSegment.of(
-                              Component.text("JSON Message"),
-                              Component.text(jsonString)
-                        )
-                )
+              packetType,
+              Component.text(friendlyName),
+              List.of(
+                    PacketInfo.data(
+                          (
+                                Component.text("JSON Message"),
+                          Component.text(jsonString)
+                    )
+              )
         );
     }
 }

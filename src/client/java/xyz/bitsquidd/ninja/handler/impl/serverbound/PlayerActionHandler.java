@@ -5,8 +5,8 @@ import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import org.jetbrains.annotations.NotNull;
 
 import xyz.bitsquidd.ninja.format.FormatHelper;
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -29,8 +29,8 @@ public class PlayerActionHandler extends PacketHandler<@NotNull ServerboundPlaye
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Action"), Component.text(packet.getAction().toString())),
-                    PacketInfoSegment.of(Component.text("Pos"), Component.text(FormatHelper.formatPosition(packet.getPos())))
+                    PacketInfo.data(Component.text("Action"), Component.text(packet.getAction().toString())),
+                    PacketInfo.data(Component.text("Pos"), Component.text(FormatHelper.formatPosition(packet.getPos())))
               )
         );
     }

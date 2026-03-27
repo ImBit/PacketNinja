@@ -6,8 +6,8 @@ import net.minecraft.world.waypoints.TrackedWaypoint;
 import net.minecraft.world.waypoints.Waypoint;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -34,10 +34,10 @@ public class TrackedWaypointHandler extends PacketHandler<@NotNull ClientboundTr
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Operation"), Component.text(packet.operation() + "")),
-                    PacketInfoSegment.of(Component.text("ID"), Component.text(id)),
-                    PacketInfoSegment.of(Component.text("Icon"), Component.text(icon.style.identifier().toString())),
-                    PacketInfoSegment.of(Component.text("Location"), Component.text(extractLocation(waypoint)))
+                    PacketInfo.data(Component.text("Operation"), Component.text(packet.operation() + "")),
+                    PacketInfo.data(Component.text("ID"), Component.text(id)),
+                    PacketInfo.data(Component.text("Icon"), Component.text(icon.style.identifier().toString())),
+                    PacketInfo.data(Component.text("Location"), Component.text(extractLocation(waypoint)))
               )
         );
     }

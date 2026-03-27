@@ -2,11 +2,10 @@ package xyz.bitsquidd.ninja.handler.impl.clientbound;
 
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundInitializeBorderPacket;
-
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -28,11 +27,11 @@ public class InitializeWorldBorderHandler extends PacketHandler<ClientboundIniti
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Location"), Component.text(String.format("X=%s, Z=%s", packet.getNewCenterX(), packet.getNewCenterZ()))),
-                    PacketInfoSegment.of(Component.text("Size"), Component.text(String.format("%s -> %s", packet.getOldSize(), packet.getNewSize()))),
-                    PacketInfoSegment.of(Component.text("Speed"), Component.text(packet.getLerpTime() + " ticks")),
-                    PacketInfoSegment.of(Component.text("Portal boundary"), Component.text(packet.getNewAbsoluteMaxSize())),
-                    PacketInfoSegment.of(Component.text("Warning"), Component.text(String.format("Blocks=%s, time=%s ticks", packet.getWarningBlocks(), packet.getWarningTime())))
+                    PacketInfo.data(Component.text("Location"), Component.text(String.format("X=%s, Z=%s", packet.getNewCenterX(), packet.getNewCenterZ()))),
+                    PacketInfo.data(Component.text("Size"), Component.text(String.format("%s -> %s", packet.getOldSize(), packet.getNewSize()))),
+                    PacketInfo.data(Component.text("Speed"), Component.text(packet.getLerpTime() + " ticks")),
+                    PacketInfo.data(Component.text("Portal boundary"), Component.text(packet.getNewAbsoluteMaxSize())),
+                    PacketInfo.data(Component.text("Warning"), Component.text(String.format("Blocks=%s, time=%s ticks", packet.getWarningBlocks(), packet.getWarningTime())))
               )
         );
     }

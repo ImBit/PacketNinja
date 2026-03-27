@@ -4,7 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
 import org.jetbrains.annotations.NotNull;
 
-import xyz.bitsquidd.ninja.format.*;
+import xyz.bitsquidd.ninja.format.PacketInfo;
+import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -23,6 +24,8 @@ public class RemoveEntitiesHandler extends PacketHandler<@NotNull ClientboundRem
 
     @Override
     protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundRemoveEntitiesPacket packet) {
+        List<PacketInfo> rows = new ArrayList<>();
+
         var allEntityIds = packet.getEntityIds();
         int totalCount = allEntityIds.size();
 
@@ -31,19 +34,18 @@ public class RemoveEntitiesHandler extends PacketHandler<@NotNull ClientboundRem
               .boxed()
               .toList();
 
-        List<PacketInfoRow> rows = new ArrayList<>();
-        rows.add(PacketInfoSegment.of(Component.text("Count"), Component.text(totalCount)));
+        rows.add(PacketInfo.data(Component.text("Count"), Component.text(totalCount)));
 
         if (!displayedIds.isEmpty()) {
             var idSegments = displayedIds.stream()
-                  .map(id -> PacketInfoValue.of(Component.text(id)))
+                  .map(id -> PacketInfo.value(Component.text(id)))
                   .toList();
-            rows.add(PacketInfoList.of(Component.text("EntityIds"), new ArrayList<>(idSegments)));
+            rows.add(PacketInfo.list(Component.text("EntityIds"), new ArrayList<>(idSegments)));
         }
 
         int hiddenEntities = totalCount - displayedIds.size();
         if (hiddenEntities > 0) {
-            rows.add(PacketInfoSegment.of(Component.text("EntityIdsHidden"), Component.text(hiddenEntities + " more")));
+            rows.add(PacketInfo.data(Component.text("EntityIdsHidden"), Component.text(hiddenEntities + " more")));
         }
 
         return PacketInfoBundle.of(

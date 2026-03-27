@@ -4,8 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundSetBorderSizePacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -28,7 +28,7 @@ public class SetBorderSizeHandler extends PacketHandler<ClientboundSetBorderSize
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Size"), Component.text(packet.getSize()))
+                    PacketInfo.data(Component.text("Size"), Component.text(packet.getSize()))
               )
         );
     }

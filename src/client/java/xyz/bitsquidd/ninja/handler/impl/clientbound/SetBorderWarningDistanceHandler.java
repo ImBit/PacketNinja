@@ -4,8 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundSetBorderWarningDistancePacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -28,7 +28,7 @@ public class SetBorderWarningDistanceHandler extends PacketHandler<ClientboundSe
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Warning Distance"), Component.text(packet.getWarningBlocks() + " blocks"))
+                    PacketInfo.data(Component.text("Warning Distance"), Component.text(packet.getWarningBlocks() + " blocks"))
               )
         );
     }

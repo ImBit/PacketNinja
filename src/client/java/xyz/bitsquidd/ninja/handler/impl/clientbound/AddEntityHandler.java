@@ -5,8 +5,8 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import org.jetbrains.annotations.NotNull;
 
 import xyz.bitsquidd.ninja.format.FormatHelper;
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -29,11 +29,11 @@ public class AddEntityHandler extends PacketHandler<@NotNull ClientboundAddEntit
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("EntityID"), Component.text(packet.getId())),
-                    PacketInfoSegment.of(Component.text("Type"), Component.text(packet.getType() + "")),
-                    PacketInfoSegment.of(Component.text("UUID"), Component.text(packet.getUUID() + "")),
-                    PacketInfoSegment.of(Component.text("Pos"), Component.text(FormatHelper.formatPosition(List.of(packet.getX(), packet.getY(), packet.getZ())))),
-                    PacketInfoSegment.of(Component.text("Rot"), Component.text(FormatHelper.formatRotation(packet.getXRot(), packet.getYRot())))
+                    PacketInfo.data(Component.text("EntityID"), Component.text(packet.getId())),
+                    PacketInfo.data(Component.text("Type"), Component.text(packet.getType() + "")),
+                    PacketInfo.data(Component.text("UUID"), Component.text(packet.getUUID() + "")),
+                    PacketInfo.data(Component.text("Pos"), Component.text(FormatHelper.formatPosition(List.of(packet.getX(), packet.getY(), packet.getZ())))),
+                    PacketInfo.data(Component.text("Rot"), Component.text(FormatHelper.formatRotation(packet.getXRot(), packet.getYRot())))
               )
         );
     }

@@ -4,8 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundSetBorderWarningDelayPacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -28,7 +28,7 @@ public class SetBorderWarningDelayHandler extends PacketHandler<ClientboundSetBo
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Warning Time"), Component.text(packet.getWarningDelay() + " ticks"))
+                    PacketInfo.data(Component.text("Warning Time"), Component.text(packet.getWarningDelay() + " ticks"))
               )
         );
     }

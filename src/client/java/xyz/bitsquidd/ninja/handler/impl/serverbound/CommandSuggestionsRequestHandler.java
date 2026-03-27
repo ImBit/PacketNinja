@@ -4,8 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ServerboundCommandSuggestionPacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -31,8 +31,8 @@ public class CommandSuggestionsRequestHandler extends PacketHandler<@NotNull Ser
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Transaction ID"), Component.text(id)),
-                    PacketInfoSegment.of(Component.text("Text"), Component.text(text))
+                    PacketInfo.data(Component.text("Transaction ID"), Component.text(id)),
+                    PacketInfo.data(Component.text("Text"), Component.text(text))
               )
         );
     }

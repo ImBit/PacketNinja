@@ -4,7 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundCommandSuggestionsPacket;
 import org.jetbrains.annotations.NotNull;
 
-import xyz.bitsquidd.ninja.format.*;
+import xyz.bitsquidd.ninja.format.PacketInfo;
+import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -28,23 +29,20 @@ public class CommandSuggestionsResponseHandler extends PacketHandler<@NotNull Cl
         var suggestions = packet.suggestions();
         var suggestionCount = suggestions.size();
 
-        List<PacketInfoRow> rows = new ArrayList<>();
-        rows.add(PacketInfoSegment.of(Component.text("Transaction ID"), Component.text(id)));
-        rows.add(PacketInfoSegment.of(Component.text("Suggestion Count"), Component.text(suggestionCount)));
+        List<PacketInfo> rows = new ArrayList<>();
+        rows.add(PacketInfo.data(Component.text("Transaction ID"), Component.text(id)));
+        rows.add(PacketInfo.data(Component.text("Suggestion Count"), Component.text(suggestionCount)));
 
-        // Display suggestions as a structured list
         if (!suggestions.isEmpty()) {
             var suggestionSegments = suggestions.stream()
                   .limit(MAX_DISPLAYED_ENTRIES)
-                  .map(entry -> PacketInfoValue.of(
-                        Component.text(entry.text())
-                  ))
+                  .map(entry -> PacketInfo.value(Component.text(entry.text())))
                   .toList();
-            rows.add(PacketInfoList.of(Component.text("Suggestions"), new ArrayList<>(suggestionSegments)));
+            rows.add(PacketInfo.list(Component.text("Suggestions"), suggestionSegments));
 
             int hiddenSuggestions = suggestions.size() - suggestionSegments.size();
             if (hiddenSuggestions > 0) {
-                rows.add(PacketInfoSegment.of(Component.text("SuggestionsHidden"), Component.text(hiddenSuggestions + " more")));
+                rows.add(PacketInfo.data(Component.text("SuggestionsHidden"), Component.text(hiddenSuggestions + " more")));
             }
         }
 

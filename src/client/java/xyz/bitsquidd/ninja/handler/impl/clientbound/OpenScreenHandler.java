@@ -5,8 +5,8 @@ import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
 import net.minecraft.world.inventory.MenuType;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -32,9 +32,9 @@ public class OpenScreenHandler extends PacketHandler<@NotNull ClientboundOpenScr
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("ContainerID"), Component.text(packet.getContainerId())),
-                    PacketInfoSegment.of(Component.text("MenuType"), Component.text(typeDesc)),
-                    PacketInfoSegment.of(Component.text("Title"), Component.text(titleDesc))
+                    PacketInfo.data(Component.text("ContainerID"), Component.text(packet.getContainerId())),
+                    PacketInfo.data(Component.text("MenuType"), Component.text(typeDesc)),
+                    PacketInfo.data(Component.text("Title"), Component.text(titleDesc))
               )
         );
     }

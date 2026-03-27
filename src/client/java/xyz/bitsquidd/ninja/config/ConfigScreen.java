@@ -4,6 +4,8 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import java.time.Duration;
+
 public class ConfigScreen {
     public static Screen create(Screen parent) {
         var builder = ConfigBuilder.create()
@@ -14,12 +16,16 @@ public class ConfigScreen {
         var entryBuilder = builder.entryBuilder();
 
         general.addEntry(entryBuilder
-              .startIntSlider(Component.literal("Packet Delay (ms)"),
-                    Config.packetDelayMs, 0, 2000)
-              .setDefaultValue(500)
+              .startLongSlider(
+                    Component.literal("Packet Delay (ms)"),
+                    Config.packetDelay.toMillis(),
+                    0,
+                    2000L
+              )
+              .setDefaultValue(500L)
               .setTextGetter(value -> {
-                  int step = 50;
-                  int snapped = (value / step) * step;
+                  long step = 50L;
+                  long snapped = (value / step) * step;
                   return Component.literal(snapped + " ms");
               })
               .setTooltip(Component.literal(
@@ -27,8 +33,8 @@ public class ConfigScreen {
                           "to actually log a packet, otherwise it'll be replaced with \"...\""
               ))
               .setSaveConsumer(newValue -> {
-                  int step = 50;
-                  Config.packetDelayMs = (newValue / step) * step;
+                  long step = 50L;
+                  Config.packetDelay = Duration.ofMillis((newValue / step) * step);
                   Config.save();
               })
               .build()

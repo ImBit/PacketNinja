@@ -9,12 +9,13 @@ import xyz.bitsquidd.ninja.PacketInterceptorMod;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 
 public class Config {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path FILE = FabricLoader.getInstance().getConfigDir().resolve("packetninja.json");
 
-    public static int packetDelayMs = 500;
+    public static Duration packetDelay = Duration.ofMillis(500);
 
     public static void load() {
         if (Files.exists(FILE)) {
@@ -22,7 +23,7 @@ public class Config {
                 String json = Files.readString(FILE);
                 ConfigData data = GSON.fromJson(json, ConfigData.class);
                 if (data != null) {
-                    packetDelayMs = data.packetDelayMs;
+                    packetDelay = data.packetDelayMs;
                 }
             } catch (Exception e) {
                 PacketInterceptorMod.LOGGER.error("Failed to load config, using defaults");
@@ -35,7 +36,7 @@ public class Config {
     public static void save() {
         try {
             ConfigData data = new ConfigData();
-            data.packetDelayMs = packetDelayMs;
+            data.packetDelayMs = packetDelay;
 
             Files.writeString(FILE, GSON.toJson(data));
         } catch (IOException e) {

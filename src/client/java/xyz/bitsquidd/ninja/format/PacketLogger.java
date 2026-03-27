@@ -27,14 +27,14 @@ public final class PacketLogger {
         PacketHandler<?> handler = PacketRegistry.getHandlerForPacket(packet);
         if (handler == null) return;
 
-        var delayRequired = Config.packetDelayMs;
-        if(delayRequired > 0) {
+        Duration delayRequired = Config.packetDelay;
+        if (delayRequired.isPositive()) {
             Instant currentTime = Instant.now();
-            if (Duration.between(lastPacketTime, currentTime).compareTo(Duration.ofMillis(delayRequired)) < 0) {
+            if (Duration.between(lastPacketTime, currentTime).compareTo(delayRequired) < 0) {
                 sendChatMessage(
                       Component.text("...", NamedTextColor.GRAY)
-                            .hoverEvent(HoverEvent.showText(Component.text(String.format("Too many packets sent within %sms, hiding.", delayRequired)))
-                            ));
+                            .hoverEvent(HoverEvent.showText(Component.text(String.format("Too many packets sent within %sms, hiding.", delayRequired))))
+                );
                 return;
             }
             lastPacketTime = currentTime;
@@ -46,7 +46,7 @@ public final class PacketLogger {
 
     public static void sendChatMessage(final Component component) {
         Minecraft.getInstance().execute(() ->
-            MinecraftClientAudiences.of().audience().sendMessage(component)
+              MinecraftClientAudiences.of().audience().sendMessage(component)
         );
     }
 

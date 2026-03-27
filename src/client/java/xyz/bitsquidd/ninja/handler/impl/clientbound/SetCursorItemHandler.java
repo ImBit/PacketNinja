@@ -9,8 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -40,9 +40,9 @@ public class SetCursorItemHandler extends PacketHandler<@NotNull ClientboundSetC
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("ID"), Component.text(itemId.toString())),
-                    PacketInfoSegment.of(Component.text("Count"), Component.text(itemCount)),
-                    PacketInfoSegment.of(Component.text("NBT"), Component.text(json.toString()))
+                    PacketInfo.data(Component.text("ID"), Component.text(itemId.toString())),
+                    PacketInfo.data(Component.text("Count"), Component.text(itemCount)),
+                    PacketInfo.data(Component.text("NBT"), Component.text(json.toString()))
               )
         );
     }

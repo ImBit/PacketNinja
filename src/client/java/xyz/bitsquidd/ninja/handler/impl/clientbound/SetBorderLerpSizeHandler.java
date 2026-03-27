@@ -4,8 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundSetBorderLerpSizePacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -27,8 +27,8 @@ public class SetBorderLerpSizeHandler extends PacketHandler<ClientboundSetBorder
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("Size"), Component.text(String.format("%s -> %s", packet.getOldSize(), packet.getNewSize()))),
-                    PacketInfoSegment.of(Component.text("Speed"), Component.text(packet.getLerpTime() + " ticks"))
+                    PacketInfo.data(Component.text("Size"), Component.text(String.format("%s -> %s", packet.getOldSize(), packet.getNewSize()))),
+                    PacketInfo.data(Component.text("Speed"), Component.text(packet.getLerpTime() + " ticks"))
               )
         );
     }
