@@ -9,3 +9,10 @@ More info:
   [ ] Hover on message to show more info:
     [ ] Timestamp
     [ ] Packet size?
+
+Documentation:
+  [ ] Add better documentation to API methods (see Bits)
+  [ ] Improve README
+    [ ] More screenshots
+    [ ] Better explanation of features
+    [ ] Example use cases
