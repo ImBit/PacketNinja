@@ -55,6 +55,7 @@ dependencies {
     modApi(rootProject.libs.clothconfig) {
         exclude(group = "net.fabricmc.fabric-api")
     }
+    include(rootProject.libs.clothconfig)
 
     errorprone(rootProject.libs.errorprone)
 }
