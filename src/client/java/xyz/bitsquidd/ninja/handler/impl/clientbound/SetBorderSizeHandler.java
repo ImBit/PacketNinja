@@ -1,7 +1,7 @@
 package xyz.bitsquidd.ninja.handler.impl.clientbound;
 
 import net.kyori.adventure.text.Component;
-import net.minecraft.network.protocol.common.ClientboundPingPacket;
+import net.minecraft.network.protocol.game.ClientboundSetBorderSizePacket;
 import org.jetbrains.annotations.NotNull;
 
 import xyz.bitsquidd.ninja.format.PacketInfo;
@@ -11,26 +11,26 @@ import xyz.bitsquidd.ninja.handler.PacketType;
 
 import java.util.List;
 
-public class PingHandler extends PacketHandler<@NotNull ClientboundPingPacket> {
+public class SetBorderSizeHandler extends PacketHandler<ClientboundSetBorderSizePacket> {
 
-    public PingHandler() {
+    public SetBorderSizeHandler() {
         super(
-              ClientboundPingPacket.class,
-              "Ping",
-              "Handles when the player receives a ping packet.",
+              ClientboundSetBorderSizePacket.class,
+              "SetBorderSize",
+              "Handles world border size updates",
               PacketType.CLIENTBOUND
         );
     }
 
     @Override
-    protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundPingPacket packet) {
+    protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundSetBorderSizePacket packet) {
         return PacketInfoBundle.of(
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfo.data(Component.text("ID"), Component.text(packet.getId()))
+                    PacketInfo.data(Component.text("Size"), Component.text(packet.getSize()))
               )
         );
     }
-
 }
+

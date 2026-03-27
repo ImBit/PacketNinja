@@ -4,8 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundBossEventPacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -28,24 +28,24 @@ public class BossEventHandler extends PacketHandler<@NotNull ClientboundBossEven
 
     @Override
     protected @NotNull PacketInfoBundle getPacketInfoInternal(@NotNull ClientboundBossEventPacket packet) {
-        List<PacketInfoSegment> segments = new ArrayList<>();
+        List<PacketInfo> segments = new ArrayList<>();
 
         try {
             Field idField = packet.getClass().getDeclaredField("id");
             idField.setAccessible(true);
             UUID id = (UUID)idField.get(packet);
-            segments.add(PacketInfoSegment.of(Component.text("Boss ID"), Component.text(id.toString())));
+            segments.add(PacketInfo.data(Component.text("Boss ID"), Component.text(id.toString())));
 
             Field operationField = packet.getClass().getDeclaredField("operation");
             operationField.setAccessible(true);
             Object operation = operationField.get(packet);
 
             String operationType = operation.getClass().getSimpleName();
-            segments.add(PacketInfoSegment.of(Component.text("Operation"), Component.text(operationType)));
+            segments.add(PacketInfo.data(Component.text("Operation"), Component.text(operationType)));
 
             extractOperationDetails(operation, segments);
         } catch (Exception ignored) {
-            segments.add(PacketInfoSegment.of(Component.text("Error"), Component.text("Failed to extract data")));
+            segments.add(PacketInfo.data(Component.text("Error"), Component.text("Failed to extract data")));
         }
 
         return PacketInfoBundle.of(
@@ -55,7 +55,7 @@ public class BossEventHandler extends PacketHandler<@NotNull ClientboundBossEven
         );
     }
 
-    private void extractOperationDetails(Object operation, List<PacketInfoSegment> segments) {
+    private void extractOperationDetails(Object operation, List<PacketInfo> segments) {
         try {
             Field typeField = operation.getClass().getDeclaredField("type");
             typeField.setAccessible(true);
@@ -73,64 +73,64 @@ public class BossEventHandler extends PacketHandler<@NotNull ClientboundBossEven
         } catch (Exception ignored) {}
     }
 
-    private void extractAddOperation(Object operation, List<PacketInfoSegment> segments) throws Exception {
+    private void extractAddOperation(Object operation, List<PacketInfo> segments) throws Exception {
         Field nameField = operation.getClass().getDeclaredField("name");
         nameField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Name"), Component.text(nameField.get(operation).toString())));
+        segments.add(PacketInfo.data(Component.text("Name"), Component.text(nameField.get(operation).toString())));
 
         Field progressField = operation.getClass().getDeclaredField("progress");
         progressField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Progress"), Component.text(String.valueOf(progressField.get(operation)))));
+        segments.add(PacketInfo.data(Component.text("Progress"), Component.text(String.valueOf(progressField.get(operation)))));
 
         Field colorField = operation.getClass().getDeclaredField("color");
         colorField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Color"), Component.text(colorField.get(operation).toString())));
+        segments.add(PacketInfo.data(Component.text("Color"), Component.text(colorField.get(operation).toString())));
 
         Field overlayField = operation.getClass().getDeclaredField("overlay");
         overlayField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Overlay"), Component.text(overlayField.get(operation).toString())));
+        segments.add(PacketInfo.data(Component.text("Overlay"), Component.text(overlayField.get(operation).toString())));
 
         extractBooleanFlags(operation, segments);
     }
 
-    private void extractProgressOperation(Object operation, List<PacketInfoSegment> segments) throws Exception {
+    private void extractProgressOperation(Object operation, List<PacketInfo> segments) throws Exception {
         Field progressField = operation.getClass().getDeclaredField("progress");
         progressField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Progress"), Component.text(String.valueOf(progressField.get(operation)))));
+        segments.add(PacketInfo.data(Component.text("Progress"), Component.text(String.valueOf(progressField.get(operation)))));
     }
 
-    private void extractNameOperation(Object operation, List<PacketInfoSegment> segments) throws Exception {
+    private void extractNameOperation(Object operation, List<PacketInfo> segments) throws Exception {
         Field nameField = operation.getClass().getDeclaredField("name");
         nameField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Name"), Component.text(nameField.get(operation).toString())));
+        segments.add(PacketInfo.data(Component.text("Name"), Component.text(nameField.get(operation).toString())));
     }
 
-    private void extractStyleOperation(Object operation, List<PacketInfoSegment> segments) throws Exception {
+    private void extractStyleOperation(Object operation, List<PacketInfo> segments) throws Exception {
         Field colorField = operation.getClass().getDeclaredField("color");
         colorField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Color"), Component.text(colorField.get(operation).toString())));
+        segments.add(PacketInfo.data(Component.text("Color"), Component.text(colorField.get(operation).toString())));
 
         Field overlayField = operation.getClass().getDeclaredField("overlay");
         overlayField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Overlay"), Component.text(overlayField.get(operation).toString())));
+        segments.add(PacketInfo.data(Component.text("Overlay"), Component.text(overlayField.get(operation).toString())));
     }
 
-    private void extractPropertiesOperation(Object operation, List<PacketInfoSegment> segments) throws Exception {
+    private void extractPropertiesOperation(Object operation, List<PacketInfo> segments) throws Exception {
         extractBooleanFlags(operation, segments);
     }
 
-    private void extractBooleanFlags(Object operation, List<PacketInfoSegment> segments) throws Exception {
+    private void extractBooleanFlags(Object operation, List<PacketInfo> segments) throws Exception {
         Field darkenField = operation.getClass().getDeclaredField("darkenScreen");
         darkenField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Darken Screen"), Component.text(String.valueOf(darkenField.get(operation)))));
+        segments.add(PacketInfo.data(Component.text("Darken Screen"), Component.text(String.valueOf(darkenField.get(operation)))));
 
         Field musicField = operation.getClass().getDeclaredField("playMusic");
         musicField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Play Music"), Component.text(String.valueOf(musicField.get(operation)))));
+        segments.add(PacketInfo.data(Component.text("Play Music"), Component.text(String.valueOf(musicField.get(operation)))));
 
         Field fogField = operation.getClass().getDeclaredField("createWorldFog");
         fogField.setAccessible(true);
-        segments.add(PacketInfoSegment.of(Component.text("Create Fog"), Component.text(String.valueOf(fogField.get(operation)))));
+        segments.add(PacketInfo.data(Component.text("Create Fog"), Component.text(String.valueOf(fogField.get(operation)))));
     }
 
 }

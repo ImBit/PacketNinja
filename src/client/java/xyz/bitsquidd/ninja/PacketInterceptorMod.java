@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import xyz.bitsquidd.ninja.command.PacketInterceptionCommand;
+import xyz.bitsquidd.ninja.config.Config;
 import xyz.bitsquidd.ninja.format.PacketLogger;
 
 public final class PacketInterceptorMod implements ClientModInitializer {
@@ -30,9 +31,10 @@ public final class PacketInterceptorMod implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            PacketInterceptionCommand.register(dispatcher);
-        });
+        Config.load();
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
+            PacketInterceptionCommand.register(dispatcher)
+        );
     }
 
     public @NotNull PacketFilter getPacketFilter() {

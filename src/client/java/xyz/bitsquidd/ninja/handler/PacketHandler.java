@@ -7,6 +7,7 @@ import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 
 @NullMarked
 public abstract class PacketHandler<T extends Packet<?>> {
+    // TODO: maybe make this configurable too??
     protected static final int MAX_DISPLAYED_ENTRIES = 5;
 
 

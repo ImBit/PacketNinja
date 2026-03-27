@@ -4,8 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ClientboundContainerClosePacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
-import xyz.bitsquidd.ninja.format.PacketInfoSegment;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 import xyz.bitsquidd.ninja.handler.PacketType;
 
@@ -28,7 +28,7 @@ public class ContainerCloseHandler extends PacketHandler<@NotNull ClientboundCon
               packetType,
               Component.text(friendlyName),
               List.of(
-                    PacketInfoSegment.of(Component.text("ContainerID"), Component.text(packet.getContainerId()))
+                    PacketInfo.data(Component.text("ContainerID"), Component.text(packet.getContainerId()))
               )
         );
     }
