@@ -8,6 +8,8 @@ import xyz.bitsquidd.ninja.handler.PacketType;
 
 import java.util.Collection;
 
+// TODO Use MAX_DISPLAYED_ENTRIES here instead of in building packets.
+
 /**
  * Displays a titled list of entries inside a packet info bundle.
  */
