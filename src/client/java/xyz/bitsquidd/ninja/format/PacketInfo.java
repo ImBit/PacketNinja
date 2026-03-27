@@ -14,7 +14,7 @@ public interface PacketInfo {
     Component format(PacketType type);
 
 
-    static PacketInfo data(Component name, Object value) {
+    static PacketInfo data(Component name, Component value) {
         return new SinglePacketData(name, value);
     }
 

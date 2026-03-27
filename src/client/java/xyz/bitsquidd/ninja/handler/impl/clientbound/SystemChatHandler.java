@@ -35,8 +35,7 @@ public class SystemChatHandler extends PacketHandler<@NotNull ClientboundSystemC
               Component.text(friendlyName),
               List.of(
                     PacketInfo.data(
-                          (
-                                Component.text("JSON Message"),
+                          Component.text("JSON Message"),
                           Component.text(jsonString)
                     )
               )

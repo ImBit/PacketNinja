@@ -23,7 +23,7 @@ public class Config {
                 String json = Files.readString(FILE);
                 ConfigData data = GSON.fromJson(json, ConfigData.class);
                 if (data != null) {
-                    packetDelay = data.packetDelayMs;
+                    packetDelay = Duration.ofMillis(data.packetDelayMs);
                 }
             } catch (Exception e) {
                 PacketInterceptorMod.LOGGER.error("Failed to load config, using defaults");
@@ -36,7 +36,7 @@ public class Config {
     public static void save() {
         try {
             ConfigData data = new ConfigData();
-            data.packetDelayMs = packetDelay;
+            data.packetDelayMs = packetDelay.toMillis();
 
             Files.writeString(FILE, GSON.toJson(data));
         } catch (IOException e) {
@@ -45,6 +45,6 @@ public class Config {
     }
 
     private static class ConfigData {
-        int packetDelayMs = 500;
+        long packetDelayMs = 500;
     }
 }
