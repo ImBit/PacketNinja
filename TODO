@@ -16,3 +16,7 @@ Documentation:
     [ ] More screenshots
     [ ] Better explanation of features
     [ ] Example use cases
+
+Bits:
+  [ ] Implement Command API
+  [ ] Use Bits Logging
