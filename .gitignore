@@ -1,40 +1,58 @@
-# gradle
-
-.gradle/
+# ── Gradle ─────────────────────────────────────────
+.gradle
 build/
-out/
-classes/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# eclipse
+# ── IntelliJ ───────────────────────────────────────
+.idea/*
+!.idea/codeStyles
+!.idea/inspectionProfiles
+!.idea/icon.png
+!.idea/copyright
 
-*.launch
+# ── Kotlin ─────────────────────────────────────────
+.kotlin
 
-# idea
-
-.idea/
-*.iml
-*.ipr
-*.iws
-
-# vscode
-
-.settings/
-.vscode/
-bin/
+# ── Eclipse ────────────────────────────────────────
+.apt_generated
 .classpath
+.factorypath
 .project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 
-# macos
+# ── NetBeans ───────────────────────────────────────
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
-*.DS_Store
+# ── VS Code ────────────────────────────────────────
+.vscode/
 
-# fabric
+# ── Mac OS ─────────────────────────────────────────
+.DS_Store
 
+# ── Minecraft ──────────────────────────────────────
 run/
+plugins/
 
-# java
+# ── Misc ───────────────────────────────────────────
+*.jar
+*.zip
+*.tar.gz
+*.rar
+out/
+temp/
+test/
 
-hs_err_*.log
-replay_*.log
-*.hprof
-*.jfr
+!libs/**
+
+.env
