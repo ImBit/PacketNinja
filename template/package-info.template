@@ -1,0 +1,4 @@
+@NotNullByDefault
+package ${PACKAGE_NAME};
+
+import org.jetbrains.annotations.NotNullByDefault;
