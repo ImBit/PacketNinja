@@ -19,14 +19,14 @@ import xyz.bitsquidd.ninja.handler.PacketHandler;
 import java.util.List;
 import java.util.function.Supplier;
 
-public final class PacketHandlerArgumentParser extends AbstractArgumentParser<PacketHandler<?>> {
+public final class PacketHandlerArgumentParser extends AbstractArgumentParser<PacketHandler> {
 
     public PacketHandlerArgumentParser() {
         super(TypeSignature.of(PacketHandler.class), "PacketHandler");
     }
 
     @Override
-    public PacketHandler<?> parse(List<Object> inputObjects, BitsCommandContext<?> bitsCommandContext) throws CommandSyntaxException {
+    public PacketHandler parse(List<Object> inputObjects, BitsCommandContext<?> bitsCommandContext) throws CommandSyntaxException {
         String inputString = this.singletonInputValidation(inputObjects, String.class);
 
         return PacketRegistry.fromFriendlyName(inputString).orElseThrow(() ->

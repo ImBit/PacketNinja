@@ -12,7 +12,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 import xyz.bitsquidd.bits.command.BitsCommand;
 import xyz.bitsquidd.bits.command.annotation.Command;
-import xyz.bitsquidd.bits.fabric.command.FabricBitsCommandContext;
+import xyz.bitsquidd.bits.fabric.command.FabricClientBitsCommandContext;
 import xyz.bitsquidd.bits.sendable.text.Text;
 import xyz.bitsquidd.ninja.PacketFilter;
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
@@ -21,10 +21,12 @@ import xyz.bitsquidd.ninja.handler.PacketHandler;
 
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 @Command("packets")
 public class PacketInterceptionCommand extends BitsCommand {
+
     @Command("start")
-    private void startLogging(FabricBitsCommandContext ctx) {
+    public void startLogging(FabricClientBitsCommandContext ctx) {
         PacketInterceptorMod.logPackets = true;
 
         ctx.respond(Text.of(
@@ -33,7 +35,7 @@ public class PacketInterceptionCommand extends BitsCommand {
     }
 
     @Command("stop")
-    private void stopLogging(FabricBitsCommandContext ctx) {
+    public void stopLogging(FabricClientBitsCommandContext ctx) {
         PacketInterceptorMod.logPackets = false;
 
         ctx.respond(Text.of(
@@ -42,9 +44,9 @@ public class PacketInterceptionCommand extends BitsCommand {
     }
 
     @Command("filter")
-    private static class Filter extends BitsCommand {
+    public static class Filter extends BitsCommand {
         @Command("list")
-        private void listPackets(FabricBitsCommandContext ctx) {
+        public void listPackets(FabricClientBitsCommandContext ctx) {
             PacketFilter filter = PacketInterceptorMod.getInstance().getPacketFilter();
 
             ctx.respond(Text.of(
@@ -88,7 +90,7 @@ public class PacketInterceptionCommand extends BitsCommand {
         }
 
         @Command("toggle")
-        public void togglePacket(FabricBitsCommandContext ctx, PacketHandler<?> handler) {
+        public void togglePacket(FabricClientBitsCommandContext ctx, PacketHandler handler) {
             PacketFilter filter = PacketInterceptorMod.getInstance().getPacketFilter();
 
             filter.togglePacketFilter(handler);

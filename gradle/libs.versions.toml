@@ -1,6 +1,6 @@
 [versions]
 fabric = "0.18.4"
-bits = "0.0.12"
+bits = "0.0.13"
 
 [libraries]
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric" }
