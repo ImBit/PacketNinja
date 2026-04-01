@@ -54,23 +54,10 @@ public final class PacketRegistry {
         return handlers.keySet();
     }
 
-    public static @Nullable PacketHandler<?> findHandler(String input) {
+    public static Optional<PacketHandler<?>> fromFriendlyName(String input) {
         PacketHandler<?> handler = nameToHandler.get(input.toLowerCase());
-        if (handler != null) return handler;
-
-        for (PacketHandler<?> h : handlers.values()) {
-            if (h.getFriendlyName().toLowerCase().contains(input.toLowerCase())) {
-                return h;
-            }
-        }
-
-        for (PacketHandler<?> h : handlers.values()) {
-            if (h.getPacketClass().getSimpleName().toLowerCase().contains(input.toLowerCase())) {
-                return h;
-            }
-        }
-
-        return null;
+        if (handler != null) return Optional.of(handler);
+        return Optional.empty();
     }
 
 }

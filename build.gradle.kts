@@ -1,28 +1,23 @@
 import net.fabricmc.loom.task.RemapJarTask
-import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     alias(libs.plugins.fabric.loom)
-    id("maven-publish")
     alias(libs.plugins.modrinth.minotaur)
-    alias(libs.plugins.errorprone)
+    alias(libs.plugins.bit.convention)
 }
 
-group = "xyz.bitsquidd"
+group = "com.github.imbit.ninja"
 
 base {
     archivesName.set(project.property("archives_base_name")!!.toString())
 }
 
 repositories {
-    mavenCentral()
     mavenLocal()
     maven { url = uri("https://jitpack.io") }
-    maven {
-        name = "Terraformers"
-        url = uri("https://maven.terraformersmc.com/releases")
-    }
+    maven { url = uri("https://maven.terraformersmc.com/releases") }
     maven { url = uri("https://maven.shedaniel.me/") }
+    mavenCentral()
 }
 
 loom {
@@ -47,8 +42,8 @@ dependencies {
     modImplementation(rootProject.libs.adventure.platform)
     include(rootProject.libs.adventure.platform)
 
-    modImplementation(rootProject.libs.bits.api)
-    include(rootProject.libs.bits.api)
+    modCompileOnly(rootProject.libs.bits.fabric)
+
     include(rootProject.libs.javassist)
 
     modImplementation(rootProject.libs.modmenu)
@@ -56,8 +51,6 @@ dependencies {
         exclude(group = "net.fabricmc.fabric-api")
     }
     include(rootProject.libs.clothconfig)
-
-    errorprone(rootProject.libs.errorprone)
 }
 
 tasks {
@@ -73,32 +66,6 @@ tasks {
             rename { "${it}_${project.base.archivesName.get()}" }
         }
     }
-
-    withType<JavaCompile> {
-        options.release.set(21)
-        options.encoding = "UTF-8"
-        options.errorprone {
-            enabled.set(true)
-            disableWarningsInGeneratedCode.set(true)
-            disableAllWarnings.set(true)
-            errorproneArgs.addAll(
-                "-Xep:CollectionIncompatibleType:ERROR",
-                "-Xep:EqualsIncompatibleType:ERROR",
-                "-Xep:MissingOverride:ERROR",
-                "-Xep:SelfAssignment:ERROR",
-                "-Xep:StreamResourceLeak:ERROR",
-                "-Xep:CanonicalDuration:OFF",
-                "-Xep:InlineMeSuggester:OFF",
-                "-Xep:ImmutableEnumChecker:OFF"
-            )
-        }
-    }
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-    withSourcesJar()
-    withJavadocJar()
 }
 
 publishing {

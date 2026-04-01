@@ -1,13 +1,11 @@
 package xyz.bitsquidd.ninja;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import xyz.bitsquidd.ninja.command.PacketInterceptionCommand;
 import xyz.bitsquidd.ninja.config.Config;
 import xyz.bitsquidd.ninja.format.PacketLogger;
 
@@ -32,9 +30,6 @@ public final class PacketInterceptorMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         Config.load();
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-            PacketInterceptionCommand.register(dispatcher)
-        );
     }
 
     public @NotNull PacketFilter getPacketFilter() {
@@ -50,4 +45,5 @@ public final class PacketInterceptorMod implements ClientModInitializer {
             getInstance().getPacketLogger().addPacket(packet);
         }
     }
+
 }
