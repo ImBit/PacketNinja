@@ -6,14 +6,15 @@ plugins {
     alias(libs.plugins.bit.convention)
 }
 
-group = "com.github.imbit.ninja"
+group = "xyz.bitsquidd.ninja"
 
 base {
     archivesName.set(project.property("archives_base_name")!!.toString())
 }
 
 repositories {
-    mavenLocal()
+//    mavenLocal()
+    maven { url = uri("https://repo.bitsquidd.xyz/repository/bit/") }
     maven { url = uri("https://maven.terraformersmc.com/releases") }
     maven { url = uri("https://maven.shedaniel.me/") }
     mavenCentral()

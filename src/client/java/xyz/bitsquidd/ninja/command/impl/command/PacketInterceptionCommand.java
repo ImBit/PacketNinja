@@ -10,10 +10,10 @@ package xyz.bitsquidd.ninja.command.impl.command;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 
-import xyz.bitsquidd.bits.command.BitsCommand;
-import xyz.bitsquidd.bits.command.annotation.Command;
-import xyz.bitsquidd.bits.fabric.command.FabricClientBitsCommandContext;
-import xyz.bitsquidd.bits.sendable.text.Text;
+import xyz.bitsquidd.bits.mc.command.BitsCommand;
+import xyz.bitsquidd.bits.mc.command.FabricClientBitsCommandContext;
+import xyz.bitsquidd.bits.mc.command.annotation.Command;
+import xyz.bitsquidd.bits.mc.sendable.text.Text;
 import xyz.bitsquidd.ninja.PacketFilter;
 import xyz.bitsquidd.ninja.PacketInterceptorMod;
 import xyz.bitsquidd.ninja.PacketRegistry;

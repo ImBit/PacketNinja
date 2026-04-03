@@ -9,9 +9,9 @@ package xyz.bitsquidd.ninja.command.impl.argument;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import xyz.bitsquidd.bits.command.argument.parser.AbstractArgumentParser;
-import xyz.bitsquidd.bits.command.exception.ExceptionBuilder;
-import xyz.bitsquidd.bits.command.util.BitsCommandContext;
+import xyz.bitsquidd.bits.mc.command.argument.parser.AbstractArgumentParser;
+import xyz.bitsquidd.bits.mc.command.exception.ExceptionBuilder;
+import xyz.bitsquidd.bits.mc.command.util.BitsCommandContext;
 import xyz.bitsquidd.bits.wrapper.type.TypeSignature;
 import xyz.bitsquidd.ninja.PacketRegistry;
 import xyz.bitsquidd.ninja.handler.PacketHandler;

@@ -7,9 +7,9 @@
 
 package xyz.bitsquidd.ninja.command;
 
-import xyz.bitsquidd.bits.command.BitsCommand;
-import xyz.bitsquidd.bits.command.argument.parser.AbstractArgumentParser;
-import xyz.bitsquidd.bits.fabric.command.provider.BitsCommandProvider;
+import xyz.bitsquidd.bits.mc.command.BitsCommand;
+import xyz.bitsquidd.bits.mc.command.argument.parser.AbstractArgumentParser;
+import xyz.bitsquidd.bits.mc.command.provider.BitsCommandProvider;
 import xyz.bitsquidd.bits.util.reflection.ClassGraph;
 import xyz.bitsquidd.bits.wrapper.collection.AddableSet;
 

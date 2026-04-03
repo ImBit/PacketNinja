@@ -1,13 +1,13 @@
 [versions]
 fabric = "0.18.4"
-bits = "0.0.13"
+bits = "0.0.+"
 
 [libraries]
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric" }
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabric" }
 
-bits-api = { group = "com.github.imbit.bits", name = "api", version.ref = "bits" }
-bits-fabric = { group = "com.github.imbit.bits", name = "fabric", version.ref = "bits" }
+bits-api = { group = "xyz.bitsquidd.bits", name = "api", version.ref = "bits" }
+bits-fabric = { group = "xyz.bitsquidd.bits", name = "fabric", version.ref = "bits" }
 adventure-platform = { group = "net.kyori", name = "adventure-platform-fabric", version = "6.8.0" }
 
 jb-annotations = { group = "org.jetbrains", name = "annotations", version = "26.1.0" }
@@ -22,7 +22,7 @@ clothconfig = { group = "me.shedaniel.cloth", name = "cloth-config-fabric", vers
 
 
 [plugins]
-bit-convention = { id = "com.github.imbit.convention", version = "1.0.3" }
+bit-convention = { id = "xyz.bitsquidd.convention", version = "1.0.+" }
 
 kotlin = { id = "org.jetbrains.kotlin.jvm", version = "2.3.10" }
 fabric-loom = { id = "fabric-loom", version = "1.14-SNAPSHOT" }
