@@ -14,7 +14,6 @@ base {
 
 repositories {
     mavenLocal()
-    maven { url = uri("https://jitpack.io") }
     maven { url = uri("https://maven.terraformersmc.com/releases") }
     maven { url = uri("https://maven.shedaniel.me/") }
     mavenCentral()
@@ -76,7 +75,15 @@ publishing {
         }
     }
 
-    repositories {}
+    repositories {
+        maven {
+            url = uri("https://repo.bitsquidd.xyz/repository/bit/")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+    }
 }
 
 modrinth {
