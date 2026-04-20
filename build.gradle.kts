@@ -1,26 +1,10 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import xyz.bitsquidd.util.shadeImplementation
-
 plugins {
     alias(libs.plugins.bit.convention)
     alias(libs.plugins.fabric.loom)
-    id("maven-publish")
     alias(libs.plugins.modrinth.minotaur)
 }
 
 group = "xyz.bitsquidd"
-
-base {
-    archivesName.set(project.property("archives_base_name")!!.toString())
-}
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-    maven { url = uri("https://jitpack.io") }
-    maven { url = uri("https://maven.terraformersmc.com/releases") }
-    maven { url = uri("https://maven.shedaniel.me/") }
-}
 
 loom {
     splitEnvironmentSourceSets()
@@ -33,14 +17,25 @@ loom {
     }
 }
 
+repositories {
+    mavenLocal()
+
+    maven { url = uri("https://maven.terraformersmc.com/releases") }
+    maven { url = uri("https://maven.shedaniel.me/") }
+
+    mavenCentral()
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:26.1.2")
 
     implementation(rootProject.libs.fabric.loader)
     implementation(rootProject.libs.fabric.api)
 
-    shadeImplementation(rootProject.libs.adventure.platform)
-    shadeImplementation(rootProject.libs.bits.api)
+    implementation(rootProject.libs.adventure.platform)
+    include(rootProject.libs.adventure.platform)
+    implementation(rootProject.libs.bits.api)
+    include(rootProject.libs.bits.api)
 
     implementation(rootProject.libs.modmenu)
     implementation(rootProject.libs.clothconfig)
@@ -71,7 +66,7 @@ modrinth {
     versionName = "Packet Ninja $version"
     versionNumber.set(project.version.toString())
     changelog.set(System.getenv("CHANGELOG") ?: "No changelog provided.")
-    uploadFile.set(tasks.named<ShadowJar>("shadowJar").get())
+    uploadFile.set(tasks.named<Jar>("jar").get())
     versionType.set("release")
     syncBodyFrom.set(rootProject.file("README.md").readText())
 }
