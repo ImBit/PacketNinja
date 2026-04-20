@@ -20,10 +20,12 @@ loom {
 repositories {
     mavenLocal()
 
+    maven { url = uri("https://repo.bitsquidd.xyz/repository/bit/") }
+    maven { url = uri("https://maven.fabricmc.net/") }
     maven { url = uri("https://maven.terraformersmc.com/releases") }
     maven { url = uri("https://maven.shedaniel.me/") }
 
-    mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
@@ -34,8 +36,7 @@ dependencies {
 
     implementation(rootProject.libs.adventure.platform)
     include(rootProject.libs.adventure.platform)
-    implementation(rootProject.libs.bits.api)
-    include(rootProject.libs.bits.api)
+    implementation(rootProject.libs.bits.fabric)
 
     implementation(rootProject.libs.modmenu)
     implementation(rootProject.libs.clothconfig)
