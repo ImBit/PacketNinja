@@ -27,13 +27,10 @@ public final class PacketFilter {
         return shouldInterceptPacket(packet.getClass());
     }
 
-    public void togglePacketFilter(String packetName) {
-        PacketHandler<?> handler = PacketRegistry.findHandler(packetName);
-        if (handler != null) {
-            Class<? extends Packet<?>> packetClass = handler.getPacketClass();
-            boolean currentState = packetFilters.getOrDefault(packetClass, false);
-            packetFilters.put(packetClass, !currentState);
-        }
+    public void togglePacketFilter(PacketHandler<?> handler) {
+        Class<? extends Packet<?>> packetClass = handler.getPacketClass();
+        boolean currentState = packetFilters.getOrDefault(packetClass, false);
+        packetFilters.put(packetClass, !currentState);
     }
 
     public boolean isPacketEnabled(Class<? extends Packet<?>> packetClass) {

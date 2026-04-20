@@ -5,7 +5,8 @@ bits = "0.0.+"
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version = "0.19.1" }
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version = "0.145.4+26.1.2" }
 
-bits-api = { group = "com.github.ImBit.Bits", name = "API", version.ref = "bits" }
+bits-api = { group = "xyz.bitsquidd.bits", name = "api", version.ref = "bits" }
+bits-fabric = { group = "xyz.bitsquidd.bits", name = "fabric", version.ref = "bits" }
 adventure-platform = { group = "net.kyori", name = "adventure-platform-fabric", version = "6.9.0" }
 
 classgraph = { group = "io.github.classgraph", name = "classgraph", version = "4.8.179" }

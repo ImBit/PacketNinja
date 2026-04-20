@@ -4,7 +4,6 @@ import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
-import xyz.bitsquidd.bits.log.Logger;
 import xyz.bitsquidd.bits.util.Safety;
 import xyz.bitsquidd.bits.util.reflection.ClassGraph;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
@@ -21,9 +20,9 @@ public final class PacketRegistry {
     static {
         try {
             ClassGraph.Scanner.getClasses(HANDLER_PACKAGE, PacketHandler.class)
-                  .forEach(clazz -> Safety.safeExecute(() -> registerHandler(ClassGraph.Instance.create(clazz))));
+              .forEach(clazz -> Safety.safeExecute(() -> registerHandler(ClassGraph.Instance.create(clazz))));
         } catch (Exception e) {
-            Logger.exception("Failed to register packet handlers", e);
+            PacketInterceptorMod.LOGGER.error("Failed to register packet handlers");
         }
     }
 
@@ -55,23 +54,10 @@ public final class PacketRegistry {
         return handlers.keySet();
     }
 
-    public static @Nullable PacketHandler<?> findHandler(String input) {
+    public static Optional<PacketHandler<?>> fromFriendlyName(String input) {
         PacketHandler<?> handler = nameToHandler.get(input.toLowerCase());
-        if (handler != null) return handler;
-
-        for (PacketHandler<?> h : handlers.values()) {
-            if (h.getFriendlyName().toLowerCase().contains(input.toLowerCase())) {
-                return h;
-            }
-        }
-
-        for (PacketHandler<?> h : handlers.values()) {
-            if (h.getPacketClass().getSimpleName().toLowerCase().contains(input.toLowerCase())) {
-                return h;
-            }
-        }
-
-        return null;
+        if (handler != null) return Optional.of(handler);
+        return Optional.empty();
     }
 
 }
