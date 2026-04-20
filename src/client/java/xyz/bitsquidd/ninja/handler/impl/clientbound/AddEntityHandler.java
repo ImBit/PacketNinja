@@ -16,25 +16,25 @@ public class AddEntityHandler extends PacketHandler<@NotNull ClientboundAddEntit
 
     public AddEntityHandler() {
         super(
-              ClientboundAddEntityPacket.class,
-              "AddEntity",
-              "Handles entity spawning",
-              PacketType.CLIENTBOUND
+          ClientboundAddEntityPacket.class,
+          "AddEntity",
+          "Handles entity spawning",
+          PacketType.CLIENTBOUND
         );
     }
 
     @Override
     protected @NotNull PacketInfoBundle getPacketInfoInternal(ClientboundAddEntityPacket packet) {
         return PacketInfoBundle.of(
-              packetType,
-              Component.text(friendlyName),
-              List.of(
-                    PacketInfo.data(Component.text("EntityID"), Component.text(packet.getId())),
-                    PacketInfo.data(Component.text("Type"), Component.text(packet.getType() + "")),
-                    PacketInfo.data(Component.text("UUID"), Component.text(packet.getUUID() + "")),
-                    PacketInfo.data(Component.text("Pos"), Component.text(FormatHelper.formatPosition(List.of(packet.getX(), packet.getY(), packet.getZ())))),
-                    PacketInfo.data(Component.text("Rot"), Component.text(FormatHelper.formatRotation(packet.getXRot(), packet.getYRot())))
-              )
+          packetType,
+          Component.text(friendlyName),
+          List.of(
+            PacketInfo.data(Component.text("EntityID"), Component.text(packet.getId())),
+            PacketInfo.data(Component.text("Type"), Component.text(packet.getType() + "")),
+            PacketInfo.data(Component.text("UUID"), Component.text(packet.getUUID() + "")),
+            PacketInfo.data(Component.text("Pos"), Component.text(FormatHelper.formatPosition(packet.getX(), packet.getY(), packet.getZ()))),
+            PacketInfo.data(Component.text("Rot"), Component.text(FormatHelper.formatRotation(packet.getXRot(), packet.getYRot())))
+          )
         );
     }
 

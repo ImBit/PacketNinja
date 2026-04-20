@@ -5,7 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -30,21 +30,21 @@ public class PacketInterceptionCommand {
     };
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(ClientCommandManager.literal("packets")
-              .then(ClientCommandManager.literal("start").executes(PacketInterceptionCommand::startLogging))
-              .then(ClientCommandManager.literal("stop").executes(PacketInterceptionCommand::stopLogging))
-              .then(ClientCommandManager.literal("filter")
-                    .executes(PacketInterceptionCommand::listPackets)
-                    .then(ClientCommandManager.argument("packetName", StringArgumentType.word())
-                          .suggests(PACKET_SUGGESTIONS)
-                          .executes(PacketInterceptionCommand::togglePacket))));
+        dispatcher.register(ClientCommands.literal("packets")
+          .then(ClientCommands.literal("start").executes(PacketInterceptionCommand::startLogging))
+          .then(ClientCommands.literal("stop").executes(PacketInterceptionCommand::stopLogging))
+          .then(ClientCommands.literal("filter")
+            .executes(PacketInterceptionCommand::listPackets)
+            .then(ClientCommands.argument("packetName", StringArgumentType.word())
+              .suggests(PACKET_SUGGESTIONS)
+              .executes(PacketInterceptionCommand::togglePacket))));
     }
 
     private static void sendMessage(Component message, ResponseType responseType) {
         PacketLogger.sendChatMessage(
-              Component.empty()
-                    .append(Component.text(responseType.icon + " "))
-                    .append(message.color(responseType.color))
+          Component.empty()
+            .append(Component.text(responseType.icon + " "))
+            .append(message.color(responseType.color))
         );
     }
 
@@ -74,31 +74,31 @@ public class PacketInterceptionCommand {
 
         sendBlank();
         sendMessage(
-              Component.empty()
-                    .append(Component.text("Logging: ").decorate(TextDecoration.BOLD))
-                    .append(Component.text(PacketInterceptorMod.logPackets ? "ON" : "OFF")),
-              ResponseType.INFO
+          Component.empty()
+            .append(Component.text("Logging: ").decorate(TextDecoration.BOLD))
+            .append(Component.text(PacketInterceptorMod.logPackets ? "ON" : "OFF")),
+          ResponseType.INFO
         );
 
         List<PacketHandler<?>> enabledHandlers = PacketRegistry.getAllHandlers().stream()
-              .filter(handler -> filter.isPacketEnabled(handler.getPacketClass()))
-              .toList();
+          .filter(handler -> filter.isPacketEnabled(handler.getPacketClass()))
+          .toList();
         List<PacketHandler<?>> disabledHandlers = PacketRegistry.getAllHandlers().stream()
-              .filter(handler -> !filter.isPacketEnabled(handler.getPacketClass()))
-              .toList();
+          .filter(handler -> !filter.isPacketEnabled(handler.getPacketClass()))
+          .toList();
 
         if (!enabledHandlers.isEmpty()) {
             sendBlank();
             sendMessage(
-                  Component.text("Enabled: ").decorate(TextDecoration.BOLD, TextDecoration.UNDERLINED),
-                  ResponseType.SUCCESS
+              Component.text("Enabled: ").decorate(TextDecoration.BOLD, TextDecoration.UNDERLINED),
+              ResponseType.SUCCESS
             );
             for (PacketHandler<?> handler : enabledHandlers) {
                 sendMessage(
-                      Component.empty()
-                            .append(Component.text(" " + handler.getFriendlyName() + ": ").decorate(TextDecoration.BOLD))
-                            .append(Component.text(handler.getDescription())),
-                      ResponseType.SUCCESS
+                  Component.empty()
+                    .append(Component.text(" " + handler.getFriendlyName() + ": ").decorate(TextDecoration.BOLD))
+                    .append(Component.text(handler.getDescription())),
+                  ResponseType.SUCCESS
                 );
             }
         }
@@ -106,15 +106,15 @@ public class PacketInterceptionCommand {
         if (!disabledHandlers.isEmpty()) {
             sendBlank();
             sendMessage(
-                  Component.text("Disabled: ").decorate(TextDecoration.BOLD, TextDecoration.UNDERLINED),
-                  ResponseType.ERROR
+              Component.text("Disabled: ").decorate(TextDecoration.BOLD, TextDecoration.UNDERLINED),
+              ResponseType.ERROR
             );
             for (PacketHandler<?> handler : disabledHandlers) {
                 sendMessage(
-                      Component.empty()
-                            .append(Component.text(" " + handler.getFriendlyName() + ": ").decorate(TextDecoration.BOLD))
-                            .append(Component.text(handler.getDescription())),
-                      ResponseType.ERROR
+                  Component.empty()
+                    .append(Component.text(" " + handler.getFriendlyName() + ": ").decorate(TextDecoration.BOLD))
+                    .append(Component.text(handler.getDescription())),
+                  ResponseType.ERROR
                 );
             }
         }
@@ -130,10 +130,10 @@ public class PacketInterceptionCommand {
 
         if (handler == null) {
             sendMessage(
-                  Component.empty()
-                        .append(Component.text("Unknown packet: ").decorate(TextDecoration.BOLD))
-                        .append(Component.text(packetName)),
-                  ResponseType.ERROR
+              Component.empty()
+                .append(Component.text("Unknown packet: ").decorate(TextDecoration.BOLD))
+                .append(Component.text(packetName)),
+              ResponseType.ERROR
             );
             return Command.SINGLE_SUCCESS;
         }
@@ -143,17 +143,17 @@ public class PacketInterceptionCommand {
 
         if (isEnabled) {
             sendMessage(
-                  Component.empty()
-                        .append(Component.text("Enabled interception for: ").decorate(TextDecoration.BOLD))
-                        .append(Component.text(handler.getFriendlyName())),
-                  ResponseType.SUCCESS
+              Component.empty()
+                .append(Component.text("Enabled interception for: ").decorate(TextDecoration.BOLD))
+                .append(Component.text(handler.getFriendlyName())),
+              ResponseType.SUCCESS
             );
         } else {
             sendMessage(
-                  Component.empty()
-                        .append(Component.text("Disabled interception for: ").decorate(TextDecoration.BOLD))
-                        .append(Component.text(handler.getFriendlyName())),
-                  ResponseType.ERROR
+              Component.empty()
+                .append(Component.text("Disabled interception for: ").decorate(TextDecoration.BOLD))
+                .append(Component.text(handler.getFriendlyName())),
+              ResponseType.ERROR
             );
         }
 

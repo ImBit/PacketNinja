@@ -1,11 +1,11 @@
-import net.fabricmc.loom.task.RemapJarTask
-import net.ltgt.gradle.errorprone.errorprone
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import xyz.bitsquidd.util.shadeImplementation
 
 plugins {
+    alias(libs.plugins.bit.convention)
     alias(libs.plugins.fabric.loom)
     id("maven-publish")
     alias(libs.plugins.modrinth.minotaur)
-    alias(libs.plugins.errorprone)
 }
 
 group = "xyz.bitsquidd"
@@ -18,10 +18,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven { url = uri("https://jitpack.io") }
-    maven {
-        name = "Terraformers"
-        url = uri("https://maven.terraformersmc.com/releases")
-    }
+    maven { url = uri("https://maven.terraformersmc.com/releases") }
     maven { url = uri("https://maven.shedaniel.me/") }
 }
 
@@ -37,27 +34,16 @@ loom {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
+    minecraft("com.mojang:minecraft:26.1.2")
 
-    mappings(loom.officialMojangMappings())
+    implementation(rootProject.libs.fabric.loader)
+    implementation(rootProject.libs.fabric.api)
 
-    modImplementation(rootProject.libs.fabric.loader)
-    modImplementation(rootProject.libs.fabric.api)
+    shadeImplementation(rootProject.libs.adventure.platform)
+    shadeImplementation(rootProject.libs.bits.api)
 
-    modImplementation(rootProject.libs.adventure.platform)
-    include(rootProject.libs.adventure.platform)
-
-    modImplementation(rootProject.libs.bits.api)
-    include(rootProject.libs.bits.api)
-    include(rootProject.libs.javassist)
-
-    modImplementation(rootProject.libs.modmenu)
-    modApi(rootProject.libs.clothconfig) {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-    include(rootProject.libs.clothconfig)
-
-    errorprone(rootProject.libs.errorprone)
+    implementation(rootProject.libs.modmenu)
+    implementation(rootProject.libs.clothconfig)
 }
 
 tasks {
@@ -73,43 +59,10 @@ tasks {
             rename { "${it}_${project.base.archivesName.get()}" }
         }
     }
-
-    withType<JavaCompile> {
-        options.release.set(21)
-        options.encoding = "UTF-8"
-        options.errorprone {
-            enabled.set(true)
-            disableWarningsInGeneratedCode.set(true)
-            disableAllWarnings.set(true)
-            errorproneArgs.addAll(
-                "-Xep:CollectionIncompatibleType:ERROR",
-                "-Xep:EqualsIncompatibleType:ERROR",
-                "-Xep:MissingOverride:ERROR",
-                "-Xep:SelfAssignment:ERROR",
-                "-Xep:StreamResourceLeak:ERROR",
-                "-Xep:CanonicalDuration:OFF",
-                "-Xep:InlineMeSuggester:OFF",
-                "-Xep:ImmutableEnumChecker:OFF"
-            )
-        }
-    }
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-    withSourcesJar()
-    withJavadocJar()
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            artifactId = project.property("archives_base_name")!!.toString()
-            from(components["java"])
-        }
-    }
-
-    repositories {}
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 }
 
 modrinth {
@@ -118,7 +71,7 @@ modrinth {
     versionName = "Packet Ninja $version"
     versionNumber.set(project.version.toString())
     changelog.set(System.getenv("CHANGELOG") ?: "No changelog provided.")
-    uploadFile.set(tasks.named<RemapJarTask>("remapJar").get())
+    uploadFile.set(tasks.named<ShadowJar>("shadowJar").get())
     versionType.set("release")
     syncBodyFrom.set(rootProject.file("README.md").readText())
 }

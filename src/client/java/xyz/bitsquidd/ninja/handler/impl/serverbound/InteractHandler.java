@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import org.jetbrains.annotations.NotNull;
 
+import xyz.bitsquidd.ninja.format.FormatHelper;
 import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
@@ -15,21 +16,22 @@ public class InteractHandler extends PacketHandler<@NotNull ServerboundInteractP
 
     public InteractHandler() {
         super(
-              ServerboundInteractPacket.class,
-              "Interact",
-              "Handles player interactions with things.",
-              PacketType.SERVERBOUND
+          ServerboundInteractPacket.class,
+          "Interact",
+          "Handles player interactions with things.",
+          PacketType.SERVERBOUND
         );
     }
 
     @Override
     protected @NotNull PacketInfoBundle getPacketInfoInternal(ServerboundInteractPacket packet) {
         return PacketInfoBundle.of(
-              packetType,
-              Component.text(friendlyName),
-              List.of(
-                    PacketInfo.data(Component.text("IsSecondary"), Component.text(packet.isUsingSecondaryAction()))
-              )
+          packetType,
+          Component.text(friendlyName),
+          List.of(
+            PacketInfo.data(Component.text("InteractionHand"), Component.text(packet.hand().toString())),
+            PacketInfo.data(Component.text("Location"), Component.text(FormatHelper.formatPosition(packet.location())))
+          )
         );
     }
 
