@@ -5,7 +5,7 @@
   "name": "Packet Ninja",
   "description": "Mod to log incoming and outgoing packets to the client.",
   "authors": [
-      "BitSquidd"
+    "BitSquidd"
   ],
   "contact": {
   },
@@ -13,27 +13,27 @@
   "icon": "assets/packet_ninja/icon.png",
   "environment": "client",
   "entrypoints": {
-      "client": [
-          "xyz.bitsquidd.ninja.PacketInterceptorMod"
-      ],
-      "modmenu": [
-          "xyz.bitsquidd.ninja.config.ConfigMenu"
-      ],
-      "bits:command": [
-        "xyz.bitsquidd.ninja.command.NinjaCommandProvider"
-      ]
+    "client": [
+      "xyz.bitsquidd.ninja.PacketInterceptorMod"
+    ],
+    "modmenu": [
+      "xyz.bitsquidd.ninja.config.ConfigMenu"
+    ],
+    "bits:command": [
+      "xyz.bitsquidd.ninja.command.NinjaCommandProvider"
+    ]
   },
   "mixins": [
-      "packet-ninja.mixins.json",
-      {
-          "config": "packet-ninja.client.mixins.json",
-          "environment": "client"
-      }
+    "packet-ninja.mixins.json",
+    {
+      "config": "packet-ninja.client.mixins.json",
+      "environment": "client"
+    }
   ],
   "depends": {
-    "fabricloader": ">=0.19.1",
-    "minecraft": "~26.1",
     "java": ">=25",
+    "minecraft": "~26.1",
+    "fabricloader": ">=0.19.1",
     "fabric-api": "*",
     "bits": "*"
   },

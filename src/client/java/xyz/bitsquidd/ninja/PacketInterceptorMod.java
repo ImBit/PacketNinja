@@ -3,16 +3,13 @@ package xyz.bitsquidd.ninja;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import xyz.bitsquidd.bits.config.FabricClientBitsConfig;
 import xyz.bitsquidd.ninja.config.Config;
 import xyz.bitsquidd.ninja.format.PacketLogger;
 
 public final class PacketInterceptorMod implements ClientModInitializer {
-    public static final String MOD_ID = "packet-interceptor";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
     private static PacketInterceptorMod instance;
     private final PacketFilter packetFilter = new PacketFilter();
     private final PacketLogger packetLogger = new PacketLogger();
@@ -30,6 +27,7 @@ public final class PacketInterceptorMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         Config.load();
+        new FabricClientBitsConfig(LoggerFactory.getLogger("PacketNinja")).startup();
     }
 
     public @NotNull PacketFilter getPacketFilter() {

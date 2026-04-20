@@ -25,7 +25,7 @@ repositories {
     maven { url = uri("https://maven.terraformersmc.com/releases") }
     maven { url = uri("https://maven.shedaniel.me/") }
 
-    gradlePluginPortal()
+    mavenCentral()
 }
 
 dependencies {
@@ -51,9 +51,7 @@ tasks {
     }
     jar {
         inputs.property("archivesName", project.base.archivesName.get())
-        from("LICENSE") {
-            rename { "${it}_${project.base.archivesName.get()}" }
-        }
+        from("LICENSE") { rename { "${it}_${project.base.archivesName.get()}" } }
     }
 }
 
