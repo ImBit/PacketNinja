@@ -1,5 +1,6 @@
 package xyz.bitsquidd.ninja.format;
 
+import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -27,6 +28,14 @@ public final class PacketInfoBundle {
 
     public static PacketInfoBundle of(PacketType type, Component name, List<? extends PacketInfo> info) {
         return new PacketInfoBundle(type, name, List.copyOf(info));
+    }
+
+    public PacketType getType() {
+        return type;
+    }
+
+    public net.minecraft.network.chat.Component formatNative() {
+        return MinecraftClientAudiences.of().asNative(format());
     }
 
     public Component format() {

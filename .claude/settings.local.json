@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(xargs wc *)",
+      "Bash(xargs -I {} basename {})",
+      "Bash(gh api *)",
+      "Bash(grep -E \"\\\\.\\(kt|java\\)$\")",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(xargs grep *)"
+    ]
+  }
+}

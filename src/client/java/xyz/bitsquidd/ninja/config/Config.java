@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 
-import xyz.bitsquidd.ninja.PacketInterceptorMod;
+import xyz.bitsquidd.bits.log.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,7 +26,7 @@ public class Config {
                     packetDelay = Duration.ofMillis(data.packetDelayMs);
                 }
             } catch (Exception e) {
-                PacketInterceptorMod.LOGGER.error("Failed to load config, using defaults");
+                Logger.error("Failed to load config, using defaults");
             }
         } else {
             save(); // generate file on first run
@@ -40,11 +40,13 @@ public class Config {
 
             Files.writeString(FILE, GSON.toJson(data));
         } catch (IOException e) {
-            PacketInterceptorMod.LOGGER.error("Failed to save config");
+            Logger.error("Failed to save config");
         }
     }
 
     private static class ConfigData {
         long packetDelayMs = 500;
+
     }
+
 }
