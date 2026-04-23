@@ -8,7 +8,7 @@ import net.minecraft.network.protocol.game.ClientboundSetCursorItemPacket;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import xyz.bitsquidd.ninja.PacketInterceptorMod;
+import xyz.bitsquidd.bits.log.Logger;
 import xyz.bitsquidd.ninja.format.PacketInfo;
 import xyz.bitsquidd.ninja.format.PacketInfoBundle;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
@@ -19,10 +19,10 @@ import java.util.List;
 public class SetCursorItemHandler extends PacketHandler<@NotNull ClientboundSetCursorItemPacket> {
     public SetCursorItemHandler() {
         super(
-              ClientboundSetCursorItemPacket.class,
-              "SetCursorItem",
-              "Handles cursor item updates",
-              PacketType.CLIENTBOUND
+          ClientboundSetCursorItemPacket.class,
+          "SetCursorItem",
+          "Handles cursor item updates",
+          PacketType.CLIENTBOUND
         );
     }
 
@@ -34,16 +34,17 @@ public class SetCursorItemHandler extends PacketHandler<@NotNull ClientboundSetC
 
         // serialize nbt as snbt
         var encodeResult = ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, stack);
-        var json = encodeResult.resultOrPartial(PacketInterceptorMod.LOGGER::error).orElse(new JsonObject()); // return empty on error
+        var json = encodeResult.resultOrPartial(Logger::error).orElse(new JsonObject()); // return empty on error
 
         return PacketInfoBundle.of(
-              packetType,
-              Component.text(friendlyName),
-              List.of(
-                    PacketInfo.data(Component.text("ID"), Component.text(itemId.toString())),
-                    PacketInfo.data(Component.text("Count"), Component.text(itemCount)),
-                    PacketInfo.data(Component.text("NBT"), Component.text(json.toString()))
-              )
+          packetType,
+          Component.text(friendlyName),
+          List.of(
+            PacketInfo.data(Component.text("ID"), Component.text(itemId.toString())),
+            PacketInfo.data(Component.text("Count"), Component.text(itemCount)),
+            PacketInfo.data(Component.text("NBT"), Component.text(json.toString()))
+          )
         );
     }
+
 }

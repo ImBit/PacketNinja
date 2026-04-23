@@ -1,5 +1,7 @@
 [versions]
 bits = "0.0.+"
+kotlin = "2.0.21"
+fabric-language-kotlin = "1.12.3+kotlin.2.0.21"
 
 [libraries]
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version = "0.19.1" }
@@ -10,9 +12,11 @@ adventure-platform = { group = "net.kyori", name = "adventure-platform-fabric", 
 
 modmenu = { group = "com.terraformersmc", name = "modmenu", version = "18.0.0-alpha.8" }
 clothconfig = { group = "me.shedaniel.cloth", name = "cloth-config-fabric", version = "26.1.154" }
-
+sheeplib-api = { module = "com.noxcrew.sheeplib:api", version = "1.5.2+26.1.2" }
+fabric-language-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric-language-kotlin" }
 
 [plugins]
 bit-convention = { id = "xyz.bitsquidd.convention", version = "1.0.+" }
 fabric-loom = { id = "net.fabricmc.fabric-loom", version = "1.16-SNAPSHOT" }
 modrinth-minotaur = { id = "com.modrinth.minotaur", version = "2.+" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

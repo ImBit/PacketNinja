@@ -36,6 +36,10 @@ public abstract class PacketHandler<T extends Packet<?>> {
         return description;
     }
 
+    public final PacketType getPacketType() {
+        return packetType;
+    }
+
     public final boolean canHandle(Packet<?> packet) {
         return packetClass.isInstance(packet);
     }

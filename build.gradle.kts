@@ -1,7 +1,10 @@
+import xyz.bitsquidd.util.providedApi
+
 plugins {
     alias(libs.plugins.bit.convention)
     alias(libs.plugins.fabric.loom)
     alias(libs.plugins.modrinth.minotaur)
+    alias(libs.plugins.kotlin.jvm)
 }
 
 group = "xyz.bitsquidd"
@@ -31,15 +34,18 @@ repositories {
 dependencies {
     minecraft("com.mojang:minecraft:26.1.2")
 
-    implementation(rootProject.libs.fabric.loader)
-    implementation(rootProject.libs.fabric.api)
+    providedApi(rootProject.libs.fabric.loader)
+    providedApi(rootProject.libs.fabric.api)
+    providedApi(rootProject.libs.fabric.language.kotlin)
 
-    implementation(rootProject.libs.adventure.platform)
-    include(rootProject.libs.adventure.platform)
+    implementation(rootProject.libs.sheeplib.api)
+    include(rootProject.libs.sheeplib.api)
+
+
+    providedApi(rootProject.libs.modmenu)
+    providedApi(rootProject.libs.clothconfig)
+
     implementation(rootProject.libs.bits.fabric)
-
-    implementation(rootProject.libs.modmenu)
-    implementation(rootProject.libs.clothconfig)
 }
 
 tasks {
@@ -52,6 +58,7 @@ tasks {
     jar {
         inputs.property("archivesName", project.base.archivesName.get())
         from("LICENSE") { rename { "${it}_${project.base.archivesName.get()}" } }
+        from(sourceSets["client"].output)
     }
 }
 

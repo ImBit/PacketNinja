@@ -20,3 +20,9 @@ Documentation:
 Bits:
   [ ] Implement Command API
   [ ] Use Bits Logging
+
+
+
+BUGS:
+  Sheeplib packets are double
+  Refine data shown in sheeplib - add a toggle for more data or only show extra on toggle

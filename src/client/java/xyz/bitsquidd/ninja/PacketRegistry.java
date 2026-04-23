@@ -4,6 +4,7 @@ import net.minecraft.network.protocol.Packet;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
+import xyz.bitsquidd.bits.log.Logger;
 import xyz.bitsquidd.bits.util.Safety;
 import xyz.bitsquidd.bits.util.reflection.ReflectionUtils;
 import xyz.bitsquidd.bits.util.reflection.ScannerFlags;
@@ -23,7 +24,7 @@ public final class PacketRegistry {
             ReflectionUtils.General.createClassesInDir(HANDLER_PACKAGE, PacketHandler.class, ScannerFlags.DEFAULT)
               .forEach(handler -> Safety.safeExecute(() -> registerHandler(handler)));
         } catch (Exception e) {
-            PacketInterceptorMod.LOGGER.error("Failed to register packet handlers");
+            Logger.error("Failed to register packet handlers");
         }
     }
 
