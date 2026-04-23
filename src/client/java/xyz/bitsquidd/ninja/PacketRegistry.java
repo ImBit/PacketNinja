@@ -5,7 +5,8 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
 import xyz.bitsquidd.bits.util.Safety;
-import xyz.bitsquidd.bits.util.reflection.ClassGraph;
+import xyz.bitsquidd.bits.util.reflection.ReflectionUtils;
+import xyz.bitsquidd.bits.util.reflection.ScannerFlags;
 import xyz.bitsquidd.ninja.handler.PacketHandler;
 
 import java.util.*;
@@ -19,8 +20,8 @@ public final class PacketRegistry {
 
     static {
         try {
-            ClassGraph.Scanner.getClasses(HANDLER_PACKAGE, PacketHandler.class)
-              .forEach(clazz -> Safety.safeExecute(() -> registerHandler(ClassGraph.Instance.create(clazz))));
+            ReflectionUtils.General.createClassesInDir(HANDLER_PACKAGE, PacketHandler.class, ScannerFlags.DEFAULT)
+              .forEach(handler -> Safety.safeExecute(() -> registerHandler(handler)));
         } catch (Exception e) {
             PacketInterceptorMod.LOGGER.error("Failed to register packet handlers");
         }

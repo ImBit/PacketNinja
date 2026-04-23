@@ -1,6 +1,6 @@
 pluginManagement {
     repositories {
-//        mavenLocal()
+        mavenLocal()
 
         maven { url = uri("https://repo.bitsquidd.xyz/repository/bit/") }
         maven { url = uri("https://maven.fabricmc.net/") }

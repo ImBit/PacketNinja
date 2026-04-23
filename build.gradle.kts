@@ -1,24 +1,10 @@
-import net.fabricmc.loom.task.RemapJarTask
-
 plugins {
+    alias(libs.plugins.bit.convention)
     alias(libs.plugins.fabric.loom)
     alias(libs.plugins.modrinth.minotaur)
-    alias(libs.plugins.bit.convention)
 }
 
-group = "xyz.bitsquidd.ninja"
-
-base {
-    archivesName.set(project.property("archives_base_name")!!.toString())
-}
-
-repositories {
-//    mavenLocal()
-    maven { url = uri("https://repo.bitsquidd.xyz/repository/bit/") }
-    maven { url = uri("https://maven.terraformersmc.com/releases") }
-    maven { url = uri("https://maven.shedaniel.me/") }
-    mavenCentral()
-}
+group = "xyz.bitsquidd"
 
 loom {
     splitEnvironmentSourceSets()
@@ -31,26 +17,29 @@ loom {
     }
 }
 
+repositories {
+    mavenLocal()
+
+    maven { url = uri("https://repo.bitsquidd.xyz/repository/bit/") }
+    maven { url = uri("https://maven.fabricmc.net/") }
+    maven { url = uri("https://maven.terraformersmc.com/releases") }
+    maven { url = uri("https://maven.shedaniel.me/") }
+
+    mavenCentral()
+}
+
 dependencies {
-    minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
+    minecraft("com.mojang:minecraft:26.1.2")
 
-    mappings(loom.officialMojangMappings())
+    implementation(rootProject.libs.fabric.loader)
+    implementation(rootProject.libs.fabric.api)
 
-    modImplementation(rootProject.libs.fabric.loader)
-    modImplementation(rootProject.libs.fabric.api)
-
-    modImplementation(rootProject.libs.adventure.platform)
+    implementation(rootProject.libs.adventure.platform)
     include(rootProject.libs.adventure.platform)
+    implementation(rootProject.libs.bits.fabric)
 
-    modCompileOnly(rootProject.libs.bits.fabric)
-
-    include(rootProject.libs.javassist)
-
-    modImplementation(rootProject.libs.modmenu)
-    modApi(rootProject.libs.clothconfig) {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-    include(rootProject.libs.clothconfig)
+    implementation(rootProject.libs.modmenu)
+    implementation(rootProject.libs.clothconfig)
 }
 
 tasks {
@@ -62,29 +51,12 @@ tasks {
     }
     jar {
         inputs.property("archivesName", project.base.archivesName.get())
-        from("LICENSE") {
-            rename { "${it}_${project.base.archivesName.get()}" }
-        }
+        from("LICENSE") { rename { "${it}_${project.base.archivesName.get()}" } }
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            artifactId = project.property("archives_base_name")!!.toString()
-            from(components["java"])
-        }
-    }
-
-    repositories {
-        maven {
-            url = uri("https://repo.bitsquidd.xyz/repository/bit/")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-    }
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 }
 
 modrinth {
@@ -93,7 +65,7 @@ modrinth {
     versionName = "Packet Ninja $version"
     versionNumber.set(project.version.toString())
     changelog.set(System.getenv("CHANGELOG") ?: "No changelog provided.")
-    uploadFile.set(tasks.named<RemapJarTask>("remapJar").get())
+    uploadFile.set(tasks.named<Jar>("jar").get())
     versionType.set("release")
     syncBodyFrom.set(rootProject.file("README.md").readText())
 }

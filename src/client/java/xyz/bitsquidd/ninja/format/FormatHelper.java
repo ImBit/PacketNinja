@@ -3,6 +3,7 @@ package xyz.bitsquidd.ninja.format;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -14,15 +15,20 @@ import java.util.List;
  */
 @NullMarked
 public final class FormatHelper {
+    private FormatHelper() {}
 
-    public static String formatPosition(final List<Double> position) {
-        if (position.size() != 3) return "Invalid Position";
-        return String.format("[X;%.2f Y;%.2f Z;%.2f]", position.get(0), position.get(1), position.get(2));
+    public static String formatPosition(final double x, final double y, final double z) {
+        return String.format("[X;%.2f Y;%.2f Z;%.2f]", x, y, z);
     }
 
     public static String formatPosition(final BlockPos pos) {
-        return String.format("[X;%d Y;%d Z;%d]", pos.getX(), pos.getY(), pos.getZ());
+        return formatPosition(pos.getX(), pos.getY(), pos.getZ());
     }
+
+    public static String formatPosition(final Vec3 pos) {
+        return formatPosition(pos.x, pos.y, pos.z);
+    }
+
 
     public static String formatRotation(final float pitch, final float yaw) {
         return String.format("[Pitch;%.1f Yaw;%.1f]", pitch, yaw);
