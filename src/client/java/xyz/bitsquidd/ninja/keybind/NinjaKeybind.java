@@ -14,10 +14,10 @@ public final class NinjaKeybind {
 
     public static void register() {
         OPEN_NINJA = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-            "key.packet-ninja.open",
-            InputConstants.Type.KEYSYM,
-            InputConstants.KEY_GRAVE,
-            KeyMapping.Category.register(Identifier.fromNamespaceAndPath("packet-ninja", "key.categories.packet-ninja"))
+          "key.packet-ninja.open",
+          InputConstants.Type.KEYSYM,
+          InputConstants.KEY_GRAVE,
+          KeyMapping.Category.register(Identifier.fromNamespaceAndPath("packet-ninja", "key.categories.packet-ninja"))
         ));
     }
 
@@ -27,4 +27,5 @@ public final class NinjaKeybind {
             NinjaDialogManager.INSTANCE.toggle();
         }
     }
+
 }

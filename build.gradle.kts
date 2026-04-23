@@ -1,5 +1,4 @@
 import xyz.bitsquidd.util.providedApi
-import xyz.bitsquidd.util.shade
 
 plugins {
     alias(libs.plugins.bit.convention)
@@ -40,7 +39,7 @@ dependencies {
     providedApi(rootProject.libs.fabric.language.kotlin)
 
     implementation(rootProject.libs.sheeplib.api)
-    shade(rootProject.libs.sheeplib.api)
+    include(rootProject.libs.sheeplib.api)
 
 
     providedApi(rootProject.libs.modmenu)
@@ -59,8 +58,6 @@ tasks {
     jar {
         inputs.property("archivesName", project.base.archivesName.get())
         from("LICENSE") { rename { "${it}_${project.base.archivesName.get()}" } }
-    }
-    shadowJar {
         from(sourceSets["client"].output)
     }
 }
