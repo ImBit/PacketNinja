@@ -70,12 +70,15 @@ class PacketListWidget(
             val isEnabled = PacketInterceptorMod.getInstance().packetFilter.isPacketEnabled(handler.packetClass)
             val isHovered = index == hoveredIndex
 
-            val baseBg = if (isEnabled) 0x1a3a28 else 0x282828
+            val baseBg = if (isEnabled) 0x666666 else 0x333333
             val bg = if (isHovered) baseBg + 0x0a0a0a else baseBg
             graphics.fill(x, rowY, x + width, rowY + ROW_HEIGHT, bg opacity 240)
 
-            // Small status indicator dot
-            val dotColor = if (isEnabled) 0x44ff88 else 0x505050
+            val dotColor = if (isEnabled) {
+                handler.packetType.primaryColor.value()
+            } else {
+                0x505050
+            }
             val dotX = x + 5
             val dotY = rowY + (ROW_HEIGHT - 6) / 2
             graphics.fill(dotX, dotY, dotX + 6, dotY + 6, dotColor.opaqueColor())

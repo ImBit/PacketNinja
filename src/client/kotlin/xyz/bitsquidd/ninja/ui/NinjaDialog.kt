@@ -34,8 +34,8 @@ class NinjaDialog(x: Int, y: Int) : Dialog(x, y), Themed by DefaultTheme {
         val controlBar = LinearLayout.horizontal().apply {
             val pad = this@NinjaDialog.theme.dimensions.paddingInner
             defaultCellSetting().paddingRight(pad)
-            addChild(makeDirectionButton("Incoming", showIncoming) { showIncoming = !showIncoming; init() })
-            addChild(makeDirectionButton("Outgoing", showOutgoing) { showOutgoing = !showOutgoing; init() })
+            addChild(makeDirectionButton("Incoming", showIncoming, false) { showIncoming = !showIncoming; init() })
+            addChild(makeDirectionButton("Outgoing", showOutgoing, true) { showOutgoing = !showOutgoing; init() })
             addChild(
                 ThemedButton(
                     message = Component.literal("Filters"),
@@ -49,10 +49,14 @@ class NinjaDialog(x: Int, y: Int) : Dialog(x, y), Themed by DefaultTheme {
         logWidget.atBottom(0)
     }
 
-    private fun makeDirectionButton(label: String, active: Boolean, onClick: () -> Unit) = ThemedButton(
+    private fun makeDirectionButton(label: String, active: Boolean, isOutgoing: Boolean, onClick: () -> Unit) = ThemedButton(
         message = Component.literal(label),
         theme = this,
-        style = if (active) theme.buttonStyles.positive else theme.buttonStyles.standard,
+        style = if (active) {
+            if (isOutgoing) theme.buttonStyles.negative else theme.buttonStyles.positive
+        } else {
+            theme.buttonStyles.standard
+        },
         clickHandler = onClick,
     )
 
